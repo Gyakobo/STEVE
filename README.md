@@ -1,4 +1,4 @@
-# Color Grading mnemonic
+# Color Grading Ranges 
 
 1) 1300 - 1240
 #890000 - #d90000
