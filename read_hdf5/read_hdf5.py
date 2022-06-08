@@ -136,7 +136,7 @@ with h5py.File(file_name, 'r') as file:
             
     plt.plot(x_axis, y_axis)
     plt.xlabel('Time in 15 minute intervals')
-    plt.ylabel('Ion Temperature')
+    plt.ylabel('Ion Temperature')    
     plt.show() 
         
             
