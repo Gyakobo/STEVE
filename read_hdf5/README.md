@@ -9,7 +9,6 @@ CPD is great for the following use cases:
 1. Detecting a sudden change in a time series state in real time
 
 
-
 # Color Grading Ranges 
 
 1) 1300 - 1240
