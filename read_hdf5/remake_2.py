@@ -5,7 +5,35 @@ from   scipy.signal import find_peaks
 from   math import * 
 
 file_name = "data.hdf5"
-    
+
+def isNaN(num):
+    if float('-inf') < float(num) < float('inf'):
+        return False
+    else:
+        return True
+
+def get_peaks(data, THRESHOLD=2):
+    m_data = []
+
+    for i in range(0, len(data)):
+        if not isNaN(data[i]):
+            m_data.append(data[i])        
+
+    data = m_data
+
+    mean    = sum(data) / len(data)
+    std_dev = (sum( [ (val-mean)**2 for val in data ] )/ (len(data)-1))**0.5
+
+    peaks_x = []
+    for i in range(1, len(data)-1):
+        if (data[i] > data[i-1] and data[i] > data[i+1]):
+            if (abs(data[i] - mean) > THRESHOLD*std_dev):
+                peaks_x.append(i)
+
+    return peaks_x, std_dev, mean
+
+
+
 def calc_alt(a, b, alpha):
     return sqrt(a*a + b*b - 2*a*b*cos(alpha)) - a
 
@@ -68,24 +96,36 @@ with h5py.File(file_name, 'r') as file:
 
         new_i += 17
 
+    # Choose your range
+    choose_range = 6
 
     # Find peaks    
-    peaks, _ = find_peaks(ion_temp[4], height=0)
+    #peaks, _ = find_peaks(ion_temp[4], height=0)
+    peaks, std_dev, mean = get_peaks(ion_temp[choose_range])
 
-    x = np.linspace(0, 24, 24)
+    x = np.linspace(0, len(ion_temp[choose_range]))
+
 
     # Plot a graph
     end_index = len(ion_temp)
-    for altitudes in range(4, 5): # You can put the "end_index here"     
-        plt.plot(ion_temp[altitudes], label='Alt='+str(alt_names[altitudes]))
+    for altitudes in range(choose_range, choose_range+1): # You can put the "end_index here"     
+        plt.plot(ion_temp[altitudes], label='Alt='+str(alt_names[altitudes])[:5] + ', Range = ' + str(range_names[choose_range]))
 
     # Print peaks
     print('\n')
     print("Print peaks")
     print(peaks)
 
-    plt.plot(peaks, np.array(ion_temp[4])[peaks], "x")
+    plt.plot(peaks, np.array(ion_temp[choose_range])[peaks], "x")
 
+    # The standard deviation line 
+    plt.plot([std_dev]*len(ion_temp[choose_range]), linestyle="--", label='Standard deviation = ' + str(std_dev)[:5])
+    plt.plot([mean]*len(ion_temp[choose_range]), linestyle="--", label='Mean = ' + str(mean)[:5])
+    
+    print('\n')
+    print('std_dev = ' + str(std_dev))
+
+    plt.legend(loc='best')
     plt.xlabel('Take each x increment in 15[min] intervals')
     plt.ylabel('Ti [K]')
     plt.show()
