@@ -9,7 +9,7 @@ file_name = "data.hdf5"
 def calc_alt(a, b, alpha):
     return sqrt(a*a + b*b - 2*a*b*cos(alpha)) - a
 
-elevation_angle = 77.5
+elevation_angle = ((90.0+77.5)*pi)/180.0
 
 range_names = [
     102.2, 
@@ -70,19 +70,21 @@ with h5py.File(file_name, 'r') as file:
 
 
     # Find peaks    
-    peaks, _ = find_peaks(ion_temp[0], height=0)
+    peaks, _ = find_peaks(ion_temp[4], height=0)
 
+    x = np.linspace(0, 24, 24)
 
     # Plot a graph
     end_index = len(ion_temp)
-    for altitudes in range(0, end_index): # You can put the "end_index here"     
+    for altitudes in range(4, 5): # You can put the "end_index here"     
         plt.plot(ion_temp[altitudes], label='Alt='+str(alt_names[altitudes]))
 
     # Print peaks
+    print('\n')
     print("Print peaks")
     print(peaks)
 
-    plt.plot(peaks, np.array(ion_temp[0])[peaks], "x")
+    plt.plot(peaks, np.array(ion_temp[4])[peaks], "x")
 
     plt.xlabel('Take each x increment in 15[min] intervals')
     plt.ylabel('Ti [K]')

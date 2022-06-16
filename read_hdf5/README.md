@@ -1,5 +1,5 @@
 # Detecting abrupt changes in a graph 
-So there were a couple of methods to use when final the quick and abrupt spikes. I've so far uncovered the aforementioned "Change Point Detection"(Not a well-known algorithm, but works fine) and the "Peak Signal Detection in realtime timeseries data", and so on.
+So there were a couple of methods to use when finding quick and abrupt spikes. I've so far uncovered the aforementioned "Change Point Detection"(Not a well-known algorithm, but works fine) and the "Peak Signal Detection in realtime timeseries data", and so on.
 
 Change point detection (or CPD) detects abrupt shifts in time series trends (i.e. shifts in a time series’ instantaneous velocity), that can be easily identified via the human eye, but are harder to pinpoint using traditional statistical approaches. CPD is applicable across an array of industries, including finance, manufacturing quality control, energy, medical diagnostics, and human activity analysis.
 
@@ -7,6 +7,8 @@ CPD is great for the following use cases:
 1. Detecting anomalous sequences/states in a time series
 1. Detecting the average velocity of unique states in a time series
 1. Detecting a sudden change in a time series state in real time
+
+Checkout how an AAD is manufactured 
 
 
 # Color Grading Ranges 
