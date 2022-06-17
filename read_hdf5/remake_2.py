@@ -12,6 +12,10 @@ def isNaN(num):
     else:
         return True
 
+
+
+
+
 def get_peaks(data, THRESHOLD=2):
     m_data = []
 
@@ -31,6 +35,11 @@ def get_peaks(data, THRESHOLD=2):
                 peaks_x.append(i)
 
     return peaks_x, std_dev, mean
+
+
+
+
+
 
 
 
