@@ -116,7 +116,7 @@ with h5py.File(file_name, 'r') as file:
 
 
     hours_24 = 24
-    days = 7 
+    days = 6
 
     for i in range(0, (hours_24*days) *4): #Needs to be 8
         for altitudes in range(0, 17):     
@@ -130,7 +130,7 @@ with h5py.File(file_name, 'r') as file:
 
     # Find peaks    
     # peaks, _ = find_peaks(ion_temp[choose_range], height=0)
-    peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks(ion_temp[choose_range], THRESHOLD=3)
+    peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks(ion_temp[choose_range], THRESHOLD=3.5)
 
     x = np.linspace(0, len(ion_temp[choose_range]))
 
