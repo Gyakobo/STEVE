@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 pygame.init() # Initialize Pygame
 
+
 width   = 1300
 height  = 1000
 
