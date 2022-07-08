@@ -10,7 +10,11 @@ from   math import *
 # EVIL Peak finding function
 from endolith_peakdet import *
 
-file_name = "data.hdf5"
+#file_name = "new_data.hdf5"
+file_name_2 = "new_data_2.hdf5"
+file_name_3 = "new_data_3.hdf5"
+file_name_4 = "new_data_4.hdf5"
+file_name_5 = "new_data_5.hdf5"
 
 def isNaN(num):
     if float('-inf') < float(num) < float('inf'):
@@ -85,15 +89,24 @@ range_names = [
     677.8 
 ]
 
-with h5py.File(file_name, 'r') as file:
+file_2 = np.array(h5py.File(file_name_3, 'r').file.get('Data').get('Table Layout'))
+file_3 = np.array(h5py.File(file_name_4, 'r').file.get('Data').get('Table Layout'))
+file_4 = np.array(h5py.File(file_name_5, 'r').file.get('Data').get('Table Layout'))
+
+with h5py.File(file_name_2, 'r') as file:
     keys = list(file.keys())
 
     # List keys
     print("Keys: %s" % keys)
 
     data    = file.get('Data').get('Table Layout')
-    dataset = np.array(data)
-
+    
+    dataset = np.append(np.array(data), file_2, axis = 0)
+    dataset = np.append(dataset, file_3, axis = 0)
+    dataset = np.append(dataset, file_4, axis = 0)
+    
+    
+    print(dataset)
 
     # Various altitudes
     alt_names = []
@@ -106,7 +119,8 @@ with h5py.File(file_name, 'r') as file:
     # List entire dataset
     # print(dataset[5:])
 
-    inc = 33269
+    # inc = 33269
+    inc = 21267 
     new_i = inc
 
     # Need to add 17 to get to the next 15 min increment
@@ -117,7 +131,8 @@ with h5py.File(file_name, 'r') as file:
 
 
     hours_24 = 24
-    days = 6
+    # days = 6
+    days = 50 
 
     for i in range(0, (hours_24*days) *4): #Needs to be 8
         for altitudes in range(0, 17):     
