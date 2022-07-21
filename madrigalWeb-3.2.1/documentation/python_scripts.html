@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/doc_template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Remote access using python</title>
+
+
+<style type="text/css">
+<!--
+.style1 {
+	font-weight: bold;
+	font-style: italic;
+}
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+pre { line-height: 125%; }
+body .hll { background-color: #ffffcc }
+body  { background: #f8f8f8; }
+body .c { color: #408080; font-style: italic } /* Comment */
+body .err { border: 1px solid #FF0000 } /* Error */
+body .k { color: #008000; font-weight: bold } /* Keyword */
+body .o { color: #666666 } /* Operator */
+body .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+body .cp { color: #BC7A00 } /* Comment.Preproc */
+body .c1 { color: #408080; font-style: italic } /* Comment.Single */
+body .cs { color: #408080; font-style: italic } /* Comment.Special */
+body .gd { color: #A00000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #FF0000 } /* Generic.Error */
+body .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+body .gi { color: #00A000 } /* Generic.Inserted */
+body .go { color: #808080 } /* Generic.Output */
+body .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #0040D0 } /* Generic.Traceback */
+body .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+body .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+body .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+body .kp { color: #008000 } /* Keyword.Pseudo */
+body .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+body .kt { color: #B00040 } /* Keyword.Type */
+body .m { color: #666666 } /* Literal.Number */
+body .s { color: #BA2121 } /* Literal.String */
+body .na { color: #7D9029 } /* Name.Attribute */
+body .nb { color: #008000 } /* Name.Builtin */
+body .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+body .no { color: #880000 } /* Name.Constant */
+body .nd { color: #AA22FF } /* Name.Decorator */
+body .ni { color: #999999; font-weight: bold } /* Name.Entity */
+body .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+body .nf { color: #0000FF } /* Name.Function */
+body .nl { color: #A0A000 } /* Name.Label */
+body .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+body .nt { color: #008000; font-weight: bold } /* Name.Tag */
+body .nv { color: #19177C } /* Name.Variable */
+body .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mf { color: #666666 } /* Literal.Number.Float */
+body .mh { color: #666666 } /* Literal.Number.Hex */
+body .mi { color: #666666 } /* Literal.Number.Integer */
+body .mo { color: #666666 } /* Literal.Number.Oct */
+body .sb { color: #BA2121 } /* Literal.String.Backtick */
+body .sc { color: #BA2121 } /* Literal.String.Char */
+body .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+body .s2 { color: #BA2121 } /* Literal.String.Double */
+body .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+body .sh { color: #BA2121 } /* Literal.String.Heredoc */
+body .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+body .sx { color: #008000 } /* Literal.String.Other */
+body .sr { color: #BB6688 } /* Literal.String.Regex */
+body .s1 { color: #BA2121 } /* Literal.String.Single */
+body .ss { color: #19177C } /* Literal.String.Symbol */
+body .bp { color: #008000 } /* Name.Builtin.Pseudo */
+body .vc { color: #19177C } /* Name.Variable.Class */
+body .vg { color: #19177C } /* Name.Variable.Global */
+body .vi { color: #19177C } /* Name.Variable.Instance */
+body .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+  </style>
+<link href="/static/madrigal.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+	html body {
+		background-color: {{bg_color}};
+	}
+</style>
+</head>
+
+<body>
+
+<h1 align="center">Remote access using python - built in scripts scripts</h1>
+<p>This page documents the use of the convenience scripts globalDownload.py and globalIsprint.py.  Go to the <a href="madrigalWeb.html">madrigalWeb API</a>
+for details about the lower level calls these scripts are built on, or to extend what these scripts do.</p>
+<p>The easiest way to use the Madrigal python remote data access API is to simply let the web interface write the script you need for you. 
+Just choose the <i>Access data</i> pull-down menu and choose <i>Create a command to download multiple exps</i>. Then follow the instructions, and you will 
+have the command you need to download whatever you want from Madrigal. Be sure to select python as the language you want to create the command with.
+You can choose to download files as they are in Madrigal in either column-delimited ascii, Hdf5, or netCDF4 formats, or you can choose the
+parameters yourself (including derived parameters), and optionally include filters on the data you get back.</p>
+<p>This web interface will generate python commands using one of the following two Python scripts: globalDownload.py and globalIsprint.py. Use globalDownload.py if you want data as it is in Madrigal. Use globalIsprint.py to choose parameters and/or filters. These two scripts are documented below, for those who do not want to use the web interface to generate the needed arguments:</p>
+<table width="80%" border="2" align="center">
+  <tbody>
+    <tr>
+      <td align="center"><a href="#globalDownload">globalDownload.py</a></td>
+      <td align="center"><a href="#globalIsprint">globalIsprint.py</a></td>
+    </tr>
+  </tbody>
+</table>
+<a name="globalDownload"></a>
+<h2>globalDownload.py</h2>
+<pre> Usage:</pre>
+<pre> globalDownload.py --url=&lt;Madrigal url&gt; --outputDir=&lt;output directory&gt; \
+   --user_fullname=&lt;user fullname&gt; --user_email=&lt;user email&gt; \
+   --user_affiliation=&lt;user affiliation&gt; --format=&lt;ascii,hdf5&gt; [options]</pre>
+<pre> where:</pre>
+<pre> --url=&lt;Madrigal url&gt; - url to homepage of site to be searched
+   (ie, http://madrigal.haystack.mit.edu/)
+   This is required.</pre>
+<pre> --outputDir=&lt;output directory&gt; - the output directory to store all files in.  Default is to store
+   all files in the same directory, and a number is added to the filename if a file might be overwritten.  Set
+   --tree flag to store all files in the same directory structure they appear in Madrigal.  This
+   allows all files to keep their original names. </pre>
+<pre> --user_fullname=&lt;user fullname&gt; - the full user name (probably in quotes unless your name is
+   Sting or Madonna)</pre>
+<pre> --user_email=&lt;user email&gt;</pre>
+<pre> --user_affiliation=&lt;user affiliation&gt; - user affiliation.  Use quotes if it contains spaces.
+   
+   --format=&lt;ascii or hdf5&gt;</pre>
+<pre> and options are:</pre>
+<pre> --startDate=&lt;MM/DD/YYYY&gt; - start date to filter experiments before.  Defaults to allow all experiments.</pre>
+<pre> --endDate=&lt;MM/DD/YYYY&gt; - end date to filter experiments after.  Defaults to allow all experiments.</pre>
+<pre> --inst=&lt;instrument list&gt; - comma separated list of instrument codes or names.  See Madrigal documentation
+   for this list.  Defaults to allow all instruments. If names are given, the
+   argument must be enclosed in double quotes.  An asterick will perform matching as
+   in glob.  For example:
+   
+   --inst=10,30
+   
+   --inst=&quot;Jicamarca IS Radar,Arecibo*&quot;</pre>
+<pre> --expName  - filter experiments by the experiment name.  Give all or part of the experiment name. Matching
+   is case insensitive.  Default is no filtering by experiment name.
+   
+   --fileDesc - filter files using input file Description string and case-insensitive fnmatch</pre>
+<pre> --kindat=&lt;kind of data list&gt; - comma separated list of kind of data codes.  See Madrigal documentation
+   for this list.  Defaults to allow all kinds of data.  If names are given, the
+   argument must be enclosed in double quotes.  An asterick will perform matching as
+   in glob. For example:
+   
+   --kindat=3001,13201
+   
+   --kindat=&quot;INSCAL Basic Derived Parameters,*efwind*,2001&quot;
+</pre>
+<pre> --seasonalStartDate=&lt;MM/DD&gt; - seasonal start date to filter experiments before.  Use this to select only part of the
+   year to collect data.  Defaults to Jan 1.  Example: 
+   
+   --seasonalStartDate=07/01 would only allow experiments after July 1st from each year.</pre>
+<pre> 
+   --seasonalEndDate=&lt;MM/DD&gt; - seasonal end date to filter experiments after.  Use this to select only part of the
+   year to collect data.  Defaults to Dec 31.  Example: 
+   
+   --seasonalEndDate=10/31 would only allow experiments before Oct 31 of each year.
+   
+   --tree - add if you want to store the downloaded files in the same hierarchy as in Madrigal: 
+   &lt;YYYY/&lt;instCode&gt;/&lt;experimentDir&gt;.  Without --tree, stores all downloaded files in one directory.
+   
+   --includeNonDefault - if given, include realtime files when there are no default.  Default is to search only default files.</pre>
+<pre> --verbose - if given, print each file processed info to stdout.  Default is to run silently.
+   
+   Example:
+   
+   globalDownload.py --url=http://madrigal.haystack.mit.edu --outputDir=/tmp --user_fullname=&quot;Bill Rideout&quot; 
+   --user_email=brideout@haystack.mit.edu --user_affiliation=MIT --startDate=01/01/1998 
+   --endDate=-01/30/1998 --inst=30</pre>
+<a name="globalIsprint"></a>
+<h2>globalIsprint.py</h2>
+<pre> Usage:</pre>
+<pre> globalIsprint.py --url=&lt;Madrigal url&gt; --parms=&lt;Madrigal parms&gt; --output=&lt;output file&gt; \
+   --user_fullname=&lt;user fullname&gt; --user_email=&lt;user email&gt; \
+   --user_affiliation=&lt;user affiliation&gt; [options]</pre>
+<pre> where:</pre>
+<pre> --url=&lt;Madrigal url&gt; - url to homepage of site to be searched
+   (ie, http://madrigal.haystack.mit.edu/)
+   This is required.</pre>
+<pre> --parms=&lt;Madrigal parms&gt; - a comma delimited string listing the desired Madrigal parameters
+   in mnemonic form.  (Example: gdalt,dte,te).  Data will be returned
+   in the same order as given in this string. See
+   http://cedar.openmadrigal.org/instMetadata/ and
+   choose &quot;Parameter code table&quot; for all possible parameters</pre>
+<pre> --output=&lt;output file or directory name&gt; - the file or directory name to store the resulting data.
+   If you give a file, all output will be stored in a single
+   ascii file that you specify.
+   Use a directory name if you want data stored as individual
+   files, in either ascii, Hdf5, or netCDF4 formats.  To use
+   this option, you must set a format in the optional format
+   argument. File names will be based on file names in Madrigal.
+   Hdf5 or netCDF4 formats only available from Madrigal 3.0 or 
+   higher sites.</pre>
+<pre> --user_fullname=&lt;user fullname&gt; - the full user name (probably in quotes unless your name is
+   Sting or Madonna)</pre>
+<pre> --user_email=&lt;user email&gt;</pre>
+<pre> --user_affiliation=&lt;user affiliation&gt; - user affiliation.  Use quotes if it contains spaces.</pre>
+<pre> and options are:</pre>
+<pre> --startDate=&lt;MM/DD/YYY&gt; - start date to filter experiments before.  Defaults to allow all experiments.</pre>
+<pre> --endDate=&lt;MM/DD/YYY&gt; - end date to filter experiments after.  Defaults to allow all experiments.</pre>
+<pre> --inst=&lt;instrument list&gt; - comma separated list of instrument codes or names.  See Madrigal documentation
+   for this list.  Defaults to allow all instruments. If names are given, the
+   argument must be enclosed in double quotes.  An asterick will perform matching as
+   in glob.  Examples: (--inst=10,30 or --inst=&quot;Jicamarca IS Radar,Arecibo*&quot;)
+   
+   --format=&lt;Hdf5 or netCDF4 or ascii&gt; - format must be specified if output is a directory so that data is stored
+   in individual files, one for each Madrigal file. Hdf5 or netCDF4 formats only 
+   available from Madrigal 3.0 or higher sites.</pre>
+<pre> --expName  - filter experiments by the experiment name.  Give all or part of the experiment name. Matching
+   is case insensitive and fnmatch characters * and ? are allowed.  Default is no filtering by 
+   experiment name.
+   
+   --fileDesc - filter files by their file description string. Give all or part of the file description string. Matching
+   is case insensitive and fnmatch characters * and ? are allowed.  Default is no filtering by 
+   file description.</pre>
+<pre> --kindat=&lt;kind of data list&gt; - comma separated list of kind of data codes.  See Madrigal documentation
+   for this list.  Defaults to allow all kinds of data.  If names are given, the
+   argument must be enclosed in double quotes.  An asterick will perform matching as
+   in glob. Examples: (--kindat=3001,13201 or 
+   --kindat=&quot;INSCAL Basic Derived Parameters,*efwind*,2001&quot;)</pre>
+<pre> --filter=&lt;[mnemonic] or [mnemonic1,[+-*/]mnemonic2]&gt;,&lt;lower limit1&gt;,&lt;upper limit1&gt;[or&lt;lower limit2&gt;,&lt;upper limit2&gt;...]
+   a filter using any measured or derived Madrigal parameter, or two Madrigal parameters either added,
+   subtracted, multiplied or divided.  Each filter has one or more allowed ranges.  The filter accepts
+   data that is in any allowed range.  If the Madrigal parameter value is missing, the filter will always
+   reject that data.  Multiple filter arguments are allowed on the command line.  To skip either a lower
+   limit or an upper limit, leave it blank.  Examples: (--filter=ti,500,1000  (Accept when 500 &lt;= Ti &lt;= 1000)
+   or --filter=gdalt,-,sdwht,0,  (Accept when gdalt &gt; shadowheight - that is, point in direct sunlight)
+   or  --filter=gdalt,200,300or1000,1200 (Accept when 200 &lt;= gdalt &lt;= 300 OR 1000 &lt;= gdalt &lt;= 1200))</pre>
+<pre> --seasonalStartDate=&lt;MM/DD&gt; - seasonal start date to filter experiments before.  Use this to select only part of the
+   year to collect data.  Defaults to Jan 1.  Example:
+   (--seasonalStartDate=07/01) would only allow experiments after July 1st from each year.</pre>
+<pre> 
+   --seasonalEndDate=&lt;MM/DD&gt; - seasonal end date to filter experiments after.  Use this to select only part of the
+   year to collect data.  Defaults to Dec 31.  Example: 
+   (--seasonalEndDate=10/31) would only allow experiments before Oct 31 of each year.</pre>
+<pre> --showFiles - if given, show file names.  Default is to not show file names. Not used if format in &lt;Hdf5, netCDF4).</pre>
+<pre> --showSummary - if given, summarize all arguments at the beginning.  Not used if format in &lt;Hdf5, netCDF4).
+   Default is to not show summary.
+   
+   --includeNonDefault - if given, include realtime files when there are no default.  Not used if format in &lt;Hdf5, netCDF4).
+   Default is to search only default files.</pre>
+<pre> --missing=&lt;missing string&gt; (defaults to &quot;missing&quot;). Not used if format in &lt;Hdf5, netCDF4).</pre>
+<pre> --assumed=&lt;assumed string&gt; (defaults to &quot;assumed&quot;). Not used if format in &lt;Hdf5, netCDF4).</pre>
+<pre> --knownbad=&lt;knownbad string&gt; (defaults to &quot;knownbad&quot;). Not used if format in &lt;Hdf5, netCDF4).</pre>
+<pre> --verbose - if given, print each file processed info to stdout.  Default is to run silently.</pre>
+<hr />
+<p>The rest of this tutorial is for those who want to go beyond the automatically generated commands and write more advanced python applications that
+  access Madrigal data.</p>
+<p>This page describes the remote Python API, and gives some examples of using this API.
+  These examples have been tested on both Windows and Linux, and require only access to the
+  internet and python 2.3 to run. It is available for download 
+  <a href="http://cedar.openmadrigal.org/madrigalDownload/"> here</a>.</p>
+<p>The remote Python API is organized in the same way as the <a href="wt_dataOrg.html">Madrigal data model</a>, from Instrument at the highest level, down to the level of data values. Readers who are not familiar with the Madrigal data model should read the material in that section before proceeding with this tutorial.</p>
+<p> The basic object in the remote Python API is the <em>MadrigalData</em>, found in the madrigalWeb module. To initialize <em>MadrigalData</em> requires only the url of the
+home page on any Madrigal 2.3 (or above) site as an argument. Calling the methods of this object will return all possible information from one Madrigal site. The other objects in madrigalWeb are simply there to hold returned information - for example, the <em>MadrigalExperiment</em> object holds information about one experiment. </p>
+<p>MadrigalData has the following methods:</p>
+<ul>
+  <li><span class="style1"><strong><em>getAllInstruments</em></strong></span> -  returns a list of all <em>MadrigalInstrument</em> objects at all Madrigal sites</li>
+  <li><span class="style1"><strong><em>getExperiments</em></strong></span> - returns a list of all <em>MadrigalExperiment</em> objects that meet the criteria you set at any Madrigal site</li>
+  <li><span class="style1"><strong><em>getExperimentFiles</em></strong></span> - returns a list of all default <em>MadrigalExperimentFile</em> objects for a given experiment id</li>
+  <li><span class="style1"><strong><em>getExperimentFileParameters</em></strong></span> - returns a list of all measured and derivable parameters in file</li>
+  <li><em><strong>downloadFile</strong></em> - downloadFile will download a Cedar file in the specified format.</li>
+  <li><em><strong>simplePrint</strong></em> - prints the data in the given file is a simple ascii format.</li>
+  <li><span class="style1"><strong><em>isprint</em></strong></span>  - returns as a string the isprint output given file, parms, filters without headers or summary. This is the main method that accesses the raw data in a Madrigal data file. </li>
+  <li><span class="style1"><strong><em>madCalculator</em></strong></span> - returns derived parameters for a range of latitudes, longitudes, and altitudes at a given time. Note that this method does not returned measured values from a file - use isprint for that. Instead, it is useful for accessing parameters available via the Madrigal derivation engine, such as magnetic field or MSIS parameters. </li>
+  <li><em><strong>madCalculator2</strong></em> - madCalculator2 is similar to madCalculator, except that a random collection of points in space can be specified,         rather than a grid of points.</li>
+  <li><em><strong>madCalculator3</strong></em> - madCalculator3 is similar to madCalculator, except that multiple times can be specified, where each time can have its own unique spatial positions and 1D and 2D parms.</li>
+  <li><span class="style1"><strong><em>madTimeCalculator</em></strong></span> - is similar to madCalculator, except that it returns data from a range of times, but only returns parameters such as Kp that are independent of position.</li>
+  <li><span class="style1"><strong><em>radarToGeodetic</em></strong></span> - converts arrays of az, el, and ranges to geodetic locations.</li>
+  <li><span class="style1"><strong><em>geodeticToRadar</em></strong></span> - converts arrays of points in space to az, el, and range.</li>
+  <li><span class="style1"><strong><em>listFileTimes</em></strong></span> - lists the filenames and last modification times for all files in a Madrigal database.</li>
+  <li><span class="style1"><strong><em>traceMagneticField</em></strong></span> - traceMagneticField returns a point along a magnetic field line for each point specified by the lists alts, lats, lons.</li>
+  <li><span class="style1"><strong><em>getVersion</em></strong></span> - getVersion gets the version number of Madrigal in form number dot number etc.</li>
+</ul>
+<p>See the <a href="rr_python.html">Madrigal Python API reference guide</a> for complete documentation. </p>
+<p> Two applications written with the remote Python API follow. The first is a 
+<a href=#regression>simple regression test</a>
+that is run to test web services when Madrigal is installed.  The second is a script that downloads realtime data from any desired Madrigal site.</p>
+
+<A NAME="regression"></A>
+
+<hr>
+<p><b>Simple regression test</b></p>
+
+<p>This simple script calls the following MadrigalData methods:</p>
+<ul>
+    <li>getAllInstruments</li>
+    <li>getExperiments</li>
+    <li>getExperimentFiles</li>
+    <li>downloadFile</li>
+    <li>simplePrint</li>
+    <li>isprint</li>
+    <li>madCalculator</li>
+</ul>
+
+<p>This example also shows how to get data from a different Madrigal site than the one you start with.</p>
+<p>To use this regression test, cd to the examples directory in the installation directory, and type: </p>
+<p align="center">python exampleMadrigalWebServices.py</p>
+<hr />
+
+
+<div class="highlight"><pre><span class="sd">&quot;&quot;&quot;exampleMadrigalWebServices.py runs an example of the Madrigal Web Services interface</span>
+<span class="sd">   for a given Madrigal server.</span>
+
+<span class="sd">   usage:</span>
+
+<span class="sd">   python exampleMadrigalWebServices.py </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># $Id: exampleMadrigalWebServices.py 3984 2012-03-20 14:20:17Z brideout $</span>
+
+<span class="kn">import</span> <span class="nn">madrigalWeb.madrigalWeb</span>
+
+<span class="c"># constants</span>
+<span class="n">user_fullname</span> <span class="o">=</span> <span class="s">&#39;Bill Rideout - automated test&#39;</span>
+<span class="n">user_email</span> <span class="o">=</span> <span class="s">&#39;brideout@haystack.mit.edu&#39;</span>
+<span class="n">user_affiliation</span> <span class="o">=</span> <span class="s">&#39;MIT Haystack&#39;</span>
+
+<span class="n">madrigalUrl</span> <span class="o">=</span> <span class="s">&#39;http://madrigal.haystack.mit.edu&#39;</span>
+
+
+<span class="n">testData</span> <span class="o">=</span> <span class="n">madrigalWeb</span><span class="o">.</span><span class="n">madrigalWeb</span><span class="o">.</span><span class="n">MadrigalData</span><span class="p">(</span><span class="n">madrigalUrl</span><span class="p">)</span>
+
+
+
+<span class="k">print</span> <span class="s">&#39;Example of call to getAllInstruments&#39;</span>
+<span class="n">instList</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">getAllInstruments</span><span class="p">()</span>
+<span class="c"># print out Millstone</span>
+<span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">instList</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        
+
+<span class="k">print</span> <span class="s">&#39;Example of call to getExperiments&#39;</span>
+<span class="n">expList</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">getExperiments</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1998</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1998</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">expList</span><span class="p">:</span>
+    <span class="c"># should be only one</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+
+<span class="k">print</span> <span class="s">&#39;Example of call to getExperimentFiles&#39;</span>
+<span class="n">fileList</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">getExperimentFiles</span><span class="p">(</span><span class="n">expList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">thisFile</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">thisFile</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">thisFile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">thisFilename</span> <span class="o">=</span> <span class="n">thisFile</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">break</span>
+    
+<span class="k">print</span> <span class="s">&#39;Example of downloadFile - simple and hdf5 formats:&#39;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">downloadFile</span><span class="p">(</span><span class="n">thisFilename</span><span class="p">,</span> <span class="s">&quot;/tmp/test.txt&quot;</span><span class="p">,</span> 
+                               <span class="n">user_fullname</span><span class="p">,</span> <span class="n">user_email</span><span class="p">,</span> <span class="n">user_affiliation</span><span class="p">,</span> <span class="s">&quot;simple&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">downloadFile</span><span class="p">(</span><span class="n">thisFilename</span><span class="p">,</span> <span class="s">&quot;/tmp/test.hdf5&quot;</span><span class="p">,</span> 
+                               <span class="n">user_fullname</span><span class="p">,</span> <span class="n">user_email</span><span class="p">,</span> <span class="n">user_affiliation</span><span class="p">,</span> <span class="s">&quot;simple&quot;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&#39;Example of simplePrint - only first 1000 characters printed&#39;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">simplePrint</span><span class="p">(</span><span class="n">thisFilename</span><span class="p">,</span> <span class="n">user_fullname</span><span class="p">,</span> <span class="n">user_email</span><span class="p">,</span> <span class="n">user_affiliation</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="k">print</span>
+
+<span class="k">print</span> <span class="s">&#39;Example of call to getExperimentFileParameters - only first 10 printed&#39;</span>
+<span class="n">fileParms</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">getExperimentFileParameters</span><span class="p">(</span><span class="n">thisFilename</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">fileParms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="k">print</span>
+
+
+<span class="k">print</span> <span class="s">&#39;Example of call to isprint (prints data)&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">testData</span><span class="o">.</span><span class="n">isprint</span><span class="p">(</span><span class="n">thisFilename</span><span class="p">,</span>
+                       <span class="s">&#39;gdalt,ti&#39;</span><span class="p">,</span>
+                       <span class="s">&#39;filter=gdalt,500,600 filter=ti,1900,2000&#39;</span><span class="p">,</span>
+                       <span class="n">user_fullname</span><span class="p">,</span> <span class="n">user_email</span><span class="p">,</span> <span class="n">user_affiliation</span><span class="p">))</span>
+
+
+<span class="k">print</span> <span class="s">&#39;Example of call to madCalculator (gets derived data at any time)&#39;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">madCalculator</span><span class="p">(</span><span class="mi">1999</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span><span class="o">-</span><span class="mi">150</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s">&#39;sdwht,kp&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%8.2e</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&#39;Example of searching all Madrigal sites for an experiment - here we search for PFISR data&#39;</span>
+<span class="n">expList</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">getExperiments</span><span class="p">(</span><span class="mi">61</span><span class="p">,</span><span class="mi">2008</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2008</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">local</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">expList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">print</span> <span class="s">&#39;Since this experiment is not local (note the experiment id = -1), we need to create a new MadrigalData object to get it&#39;</span>
+<span class="n">testData2</span> <span class="o">=</span> <span class="n">madrigalWeb</span><span class="o">.</span><span class="n">madrigalWeb</span><span class="o">.</span><span class="n">MadrigalData</span><span class="p">(</span><span class="n">expList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">madrigalUrl</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&#39;Now repeat the same calls as above to get PFISR data from the SRI site&#39;</span>
+<span class="n">expList2</span> <span class="o">=</span> <span class="n">testData2</span><span class="o">.</span><span class="n">getExperiments</span><span class="p">(</span><span class="mi">61</span><span class="p">,</span><span class="mi">2008</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2008</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">local</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;This is a PFISR experiment&#39;</span>
+<span class="k">print</span> <span class="n">expList2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+<A NAME="realtime"></A>
+
+<hr>
+<p><b>Script to download realtime data from Madrigal </b></p>
+
+<p>The following  is a demonstration script that shows how real-time data can be imported from any Madrigal site that is updated on a real-time basis.</p>
+
+<p>In this example, data is imported from http://www.haystack.mit.edu/madrigal from
+&quot;Millstone Hill IS Radar&quot;. The following Madrigal parameters are retrieved:</p>
+<p align="center">year,month,day,hour,min,sec,gdlat,glon,gdalt,az,el,vo,dvo</p>
+<p>for all records from the past 15 minutes.</p>
+<p>Although the particular Madrigal site (http://www.haystack.mit.edu/madrigal), the instrument (&quot;Millstone Hill IS Radar&quot;), the parameters, and the times are hard-coded in this example, they could be easily be modified to be arguments.</p>
+<p>To avoid missing data, we choose one parameter to be the filter parameter: vo. By filtering on this parameter, any &quot;missing&quot; values are filtered out. </p>
+<p>To run this script requires the python Madrigal API be installed, which can be downloaded from http://cedar.openmadrigal.org/madrigalDownload/.</p>
+<hr>
+
+<pre>
+
+
+<b><font color="#A020F0">import</font></b> os,sys,os.path
+<b><font color="#A020F0">import</font></b> string
+<b><font color="#A020F0">import</font></b> time
+
+
+<b><font color="#A020F0">import</font></b> madrigalWeb.madrigalWeb
+
+
+<i><font color="#B22222">#constants
+</font></i>madrigalUrl = <b><font color="#BC8F8F">'http://www.haystack.mit.edu/madrigal'</font></b>
+instrument = <b><font color="#BC8F8F">'Millstone Hill IS Radar'</font></b>
+
+user_fullname = <b><font color="#BC8F8F">'Put your name here!!!'</font></b>
+user_email = <b><font color="#BC8F8F">'your@email.here'</font></b>
+user_affiliation = <b><font color="#BC8F8F">'Put your affiliation here!!!'</font></b>
+
+
+<i><font color="#B22222"># each line of data contains the following parameters
+</font></i>params = <b><font color="#BC8F8F">'year,month,day,hour,min,sec,gdlat,glon,gdalt,azm,elm,vo,dvo'</font></b>
+filterParm = <b><font color="#BC8F8F">'vo'</font></b>
+timeDelay = 15
+
+<i><font color="#B22222"># create the main object to get all needed info from Madrigal
+</font></i>madrigalObj = madrigalWeb.madrigalWeb.MadrigalData(madrigalUrl)
+
+
+<i><font color="#B22222"># these next few lines convert instrument name to code
+</font></i>code = None
+instList = madrigalObj.getAllInstruments()
+<b><font color="#A020F0">for</font></b> inst <b><font color="#A020F0">in</font></b> instList:
+    <b><font color="#A020F0">if</font></b> inst.name.lower() == instrument.lower():
+        code = inst.code
+        <b><font color="#A020F0">break</font></b>
+
+<b><font color="#A020F0">if</font></b> code == None:
+    <b><font color="#A020F0">raise</font></b> ValueError, <b><font color="#BC8F8F">'Unknown instrument %s'</font></b> % (instrument)
+
+
+<i><font color="#B22222"># next, get a list of real time experiments in the last timeDelay minutes
+</font></i>startTime = time.gmtime(time.time() - timeDelay*60.0)
+endTime = time.gmtime(time.time())
+
+
+<b><font color="#A020F0">try</font></b>:
+    expList = madrigalObj.getExperiments(code, startTime[0],
+                                     startTime[1],
+                                     startTime[2],
+                                     startTime[3],
+                                     startTime[4],
+                                     startTime[5],
+                                     endTime[0],
+                                     endTime[1],
+                                     endTime[2],
+                                     endTime[3],
+                                     endTime[4],
+                                     endTime[5])
+
+<b><font color="#A020F0">except</font></b>:
+    <b><font color="#A020F0">raise</font></b> ValueError, <b><font color="#BC8F8F">'No realtime experiments found'</font></b>
+
+
+<i><font color="#B22222"># assume there's only one realtime experiment, and get the file names
+</font></i>fileList = madrigalObj.getExperimentFiles(expList[0].id)
+
+<b><font color="#A020F0">if</font></b> len(fileList) == 0:
+    <b><font color="#A020F0">raise</font></b> ValueError, <b><font color="#BC8F8F">'No realtime experiment files found'</font></b>
+
+
+<i><font color="#B22222"># get data from each of the files
+</font></i>startDateStr = time.strftime(<b><font color="#BC8F8F">'%m/%d/%Y'</font></b>, startTime)
+startDateStr = <b><font color="#BC8F8F">' date1='</font></b> + startDateStr
+startTimeStr = time.strftime(<b><font color="#BC8F8F">'%H:%M:%S'</font></b>, startTime)
+startTimeStr = <b><font color="#BC8F8F">' time1='</font></b> + startTimeStr
+endDateStr = time.strftime(<b><font color="#BC8F8F">'%m/%d/%Y'</font></b>, endTime)
+endDateStr = <b><font color="#BC8F8F">' date2='</font></b> + endDateStr
+endTimeStr = time.strftime(<b><font color="#BC8F8F">'%H:%M:%S'</font></b>, endTime)
+endTimeStr = <b><font color="#BC8F8F">' time2='</font></b> + endTimeStr
+
+filterString = <b><font color="#BC8F8F">'filter=%s,-1E30,1E30'</font></b> % (filterParm) + startDateStr + startTimeStr + endDateStr + endTimeStr
+<b><font color="#A020F0">for</font></b> dataFile <b><font color="#A020F0">in</font></b> fileList:
+    result = madrigalObj.isprint(dataFile.name, params, filterString,
+                                 user_fullname, user_email, user_affiliation)
+    <i><font color="#B22222"># make sure it succeeded
+</font></i>    <b><font color="#A020F0">if</font></b> result.find(<b><font color="#BC8F8F">'No records were selected'</font></b>) != -1:
+        <b><font color="#A020F0">continue</font></b>
+    <b><font color="#A020F0">if</font></b> result.find(<b><font color="#BC8F8F">'****'</font></b>) != -1:
+        <b><font color="#A020F0">continue</font></b>
+    <b><font color="#A020F0">print</font></b> result
+</pre>
+
+</body>
+<!-- InstanceEnd --></html>

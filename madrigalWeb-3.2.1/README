@@ -1,0 +1,4 @@
+madrigalWeb is a pure python module to access data from any Madrigal database.  For documentation and examples go to any Madrigal site such as 
+http://cedar.openmadrigal.org, or look in the documentation folder. An example script can be found in madrigalWeb/examples.
+
+For questions or comments, contact Bill Rideout at brideout@haystack.mit.edu

@@ -1,0 +1,16 @@
+MANIFEST.in
+README
+setup.py
+documentation/madrigal.css
+documentation/madrigalWeb.html
+documentation/python_scripts.html
+madrigalWeb/__init__.py
+madrigalWeb/globalCitation.py
+madrigalWeb/globalDownload.py
+madrigalWeb/globalIsprint.py
+madrigalWeb/madrigalWeb.py
+madrigalWeb.egg-info/PKG-INFO
+madrigalWeb.egg-info/SOURCES.txt
+madrigalWeb.egg-info/dependency_links.txt
+madrigalWeb.egg-info/top_level.txt
+madrigalWeb/examples/exampleMadrigalWebServices.py
