@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.10
+
 import h5py
 from numpy import NaN, Inf, arange, isscalar, asarray, array 
 import numpy as np
@@ -11,10 +13,15 @@ from   math import *
 from endolith_peakdet import *
 
 #file_name = "new_data.hdf5"
-file_name_2 = "new_data_2.hdf5"
-file_name_3 = "new_data_3.hdf5"
-file_name_4 = "new_data_4.hdf5"
-file_name_5 = "new_data_5.hdf5"
+file_name_0 = "lindslay_data/folder/new_data_0.hdf5"
+file_name_1 = "lindslay_data/folder/new_data_1.hdf5"
+file_name_2 = "lindslay_data/folder/new_data_2.hdf5"
+file_name_3 = "lindslay_data/folder/new_data_3.hdf5"
+file_name_4 = "lindslay_data/folder/new_data_4.hdf5"
+file_name_5 = "lindslay_data/folder/new_data_5.hdf5"
+file_name_6 = "lindslay_data/folder/new_data_6.hdf5"
+file_name_7 = "lindslay_data/folder/new_data_7.hdf5"
+file_name_8 = "lindslay_data/folder/new_data_8.hdf5"
 
 def isNaN(num):
     if float('-inf') < float(num) < float('inf'):
@@ -89,11 +96,17 @@ range_names = [
     677.8 
 ]
 
-file_2 = np.array(h5py.File(file_name_3, 'r').file.get('Data').get('Table Layout'))
-file_3 = np.array(h5py.File(file_name_4, 'r').file.get('Data').get('Table Layout'))
-file_4 = np.array(h5py.File(file_name_5, 'r').file.get('Data').get('Table Layout'))
+file_0 = np.array(h5py.File(file_name_0, 'r').file.get('Data').get('Table Layout'))
+file_1 = np.array(h5py.File(file_name_1, 'r').file.get('Data').get('Table Layout'))
+file_2 = np.array(h5py.File(file_name_2, 'r').file.get('Data').get('Table Layout'))
+file_3 = np.array(h5py.File(file_name_3, 'r').file.get('Data').get('Table Layout'))
+file_4 = np.array(h5py.File(file_name_4, 'r').file.get('Data').get('Table Layout'))
+file_5 = np.array(h5py.File(file_name_5, 'r').file.get('Data').get('Table Layout'))
+file_6 = np.array(h5py.File(file_name_6, 'r').file.get('Data').get('Table Layout'))
+file_7 = np.array(h5py.File(file_name_7, 'r').file.get('Data').get('Table Layout'))
+file_8 = np.array(h5py.File(file_name_8, 'r').file.get('Data').get('Table Layout'))
 
-with h5py.File(file_name_2, 'r') as file:
+with h5py.File(file_name_0, 'r') as file:
     keys = list(file.keys())
 
     # List keys
@@ -101,9 +114,14 @@ with h5py.File(file_name_2, 'r') as file:
 
     data    = file.get('Data').get('Table Layout')
     
-    dataset = np.append(np.array(data), file_2, axis = 0)
+    dataset = np.append(np.array(data), file_1, axis = 0)
+    dataset = np.append(dataset, file_2, axis = 0)
     dataset = np.append(dataset, file_3, axis = 0)
     dataset = np.append(dataset, file_4, axis = 0)
+    dataset = np.append(dataset, file_5, axis = 0)
+    dataset = np.append(dataset, file_6, axis = 0)
+    dataset = np.append(dataset, file_7, axis = 0)
+    dataset = np.append(dataset, file_8, axis = 0)
     
     
     print(dataset)

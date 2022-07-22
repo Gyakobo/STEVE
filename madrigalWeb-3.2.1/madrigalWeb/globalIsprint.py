@@ -124,7 +124,7 @@ import re
 import datetime
 import fnmatch
 
-import madrigalWeb.madrigalWeb
+import madrigalWeb
 
 def getInstrumentList(inst, server):
     """getInstrumentList takes the user argument inst and coverts it into a list of instrument codes.
@@ -806,7 +806,7 @@ timeList = (startyear, startmonth, startday, 0, 0, 0,
     
 
 # verify the url is valid
-server = madrigalWeb.madrigalWeb.MadrigalData(url)
+server = madrigalWeb.MadrigalData(url)
 
 # now, create a list of instrument codes desired from the inst argument
 instList = getInstrumentList(inst, server)
