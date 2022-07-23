@@ -1,11 +1,9 @@
-#!/usr/bin/env python3.10
-
 import h5py
 from numpy import NaN, Inf, arange, isscalar, asarray, array 
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-from   scipy.signal import find_peaks
+#from   scipy.signal import find_peaks
 from   math import * 
 
 
@@ -13,15 +11,15 @@ from   math import *
 from endolith_peakdet import *
 
 #file_name = "new_data.hdf5"
-file_name_0 = "lindslay_data/folder/new_data_0.hdf5"
-file_name_1 = "lindslay_data/folder/new_data_1.hdf5"
-file_name_2 = "lindslay_data/folder/new_data_2.hdf5"
-file_name_3 = "lindslay_data/folder/new_data_3.hdf5"
-file_name_4 = "lindslay_data/folder/new_data_4.hdf5"
-file_name_5 = "lindslay_data/folder/new_data_5.hdf5"
-file_name_6 = "lindslay_data/folder/new_data_6.hdf5"
-file_name_7 = "lindslay_data/folder/new_data_7.hdf5"
-file_name_8 = "lindslay_data/folder/new_data_8.hdf5"
+file_name_0 = "lindslay_data_folder/data_0.hdf5"
+file_name_1 = "lindslay_data_folder/data_1.hdf5"
+file_name_2 = "lindslay_data_folder/data_2.hdf5"
+file_name_3 = "lindslay_data_folder/data_3.hdf5"
+file_name_4 = "lindslay_data_folder/data_4.hdf5"
+file_name_5 = "lindslay_data_folder/data_5.hdf5"
+file_name_6 = "lindslay_data_folder/data_6.hdf5"
+file_name_7 = "lindslay_data_folder/data_7.hdf5"
+file_name_8 = "lindslay_data_folder/data_8.hdf5"
 
 def isNaN(num):
     if float('-inf') < float(num) < float('inf'):
@@ -115,13 +113,13 @@ with h5py.File(file_name_0, 'r') as file:
     data    = file.get('Data').get('Table Layout')
     
     dataset = np.append(np.array(data), file_1, axis = 0)
-    dataset = np.append(dataset, file_2, axis = 0)
-    dataset = np.append(dataset, file_3, axis = 0)
-    dataset = np.append(dataset, file_4, axis = 0)
-    dataset = np.append(dataset, file_5, axis = 0)
-    dataset = np.append(dataset, file_6, axis = 0)
-    dataset = np.append(dataset, file_7, axis = 0)
-    dataset = np.append(dataset, file_8, axis = 0)
+    #dataset = np.append(dataset, file_2, axis = 0)
+    #dataset = np.append(dataset, file_3, axis = 0)
+    #dataset = np.append(dataset, file_4, axis = 0)
+    #dataset = np.append(dataset, file_5, axis = 0)
+    #dataset = np.append(dataset, file_6, axis = 0)
+    #dataset = np.append(dataset, file_7, axis = 0)
+    #dataset = np.append(dataset, file_8, axis = 0)
     
     
     print(dataset)
@@ -137,8 +135,8 @@ with h5py.File(file_name_0, 'r') as file:
     # List entire dataset
     # print(dataset[5:])
 
-    # inc = 33269
-    inc = 21267 
+    inc = 0
+    #inc = 21267 
     new_i = inc
 
     # Need to add 17 to get to the next 15 min increment
@@ -149,13 +147,12 @@ with h5py.File(file_name_0, 'r') as file:
 
 
     hours_24 = 24
-    # days = 6
-    days = 50 
+    days = 20 
 
     for i in range(0, (hours_24*days) *4): #Needs to be 8
         for altitudes in range(0, 17):     
             #ion_temp[altitudes].append(dataset[new_i+altitudes][21])
-            ion_temp[altitudes].append(dataset[inc + (i+0)*17 + altitudes][21])
+            ion_temp[altitudes].append(dataset[inc + (i+0)*17 + altitudes][23])
 
         #new_i += 17
 
