@@ -13,6 +13,8 @@ Data can be pulled out of this site http://cedar.openmadrigal.org/downloadAdvanc
 Remote data access http://cedar.openmadrigal.org/docs/name/rt_contents.html
 A ray of hope: http://cedar.openmadrigal.org/madrigalDownload
 
+GlobalDownload - Downloads files as is 
+
 ## Note: Other interesting methods
 # Detecting abrupt changes in a graph 
 So there were a couple of methods to use when finding quick and abrupt spikes. I've so far uncovered the aforementioned "Change Point Detection"(Not a well-known algorithm, but works fine) and the "Peak Signal Detection in realtime timeseries data", and so on.

@@ -1,0 +1,58 @@
+/* CSS Document to control Madrigal formating */
+
+.navigation td          { background-color: #99ccff;
+                          font-weight: bold;
+                          font-family: avantgarde, sans-serif;
+                          font-size: 110%; }
+						  
+.navigation             { background-color: #99ccff;
+                          font-weight: bold;
+                          font-family: avantgarde, sans-serif;
+                          font-size: 110%; }
+						  
+.nav_cgi                 {
+	background-color: #99ccff;
+	font-family: avantgarde, sans-serif;
+	font-size: medium;
+	font-style: normal;
+	font-weight: normal;
+}
+						  
+/*
+ * Taken from python documentation
+ */
+
+
+a:link:active           { color: #ff0000; }
+a:link:hover            { background-color: #bbeeff; }
+a:visited:hover         { background-color: #bbeeff; }
+a:visited               { color: #551a8b; }
+a:link                  { color: #0000bb; }
+
+h1, h2, h3, h4, h5, h6  { font-family: avantgarde, sans-serif;
+                          font-weight: bold; }
+h1                      { font-size: 180%; }
+h2                      { font-size: 150%; }
+h3, h4                  { font-size: 120%; }
+
+/* These are section titles used in navigation links, so make sure we
+ * match the section header font here, even it not the weight.
+ */
+.sectref                { font-family: avantgarde, sans-serif; }
+/* And the label before the titles in navigation: */
+.navlabel               { font-size: 85%; }
+
+/* For code samples and such; make these more like the verbatim
+   environments used in the standard docs: */
+.body pre            { color: #00008b;
+                       font-family: lucida typewriter, lucidatypewriter,
+                                    monospace;
+                       font-size: 90%;
+                       margin-left: 2em; }
+
+/*
+ * Some specialization for printed output.
+ */
+@media print {
+  .online-navigation    { display: none; }
+  }

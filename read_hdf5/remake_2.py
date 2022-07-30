@@ -74,7 +74,7 @@ def calc_alt(a, b, alpha):
 
 elevation_angle = ((90.0+77.5)*pi)/180.0
 
-range_names = [
+range_names = (
     102.2, 
     138.17, 
     174.15, 
@@ -92,7 +92,7 @@ range_names = [
     605.85, 
     641.82, 
     677.8 
-]
+)
 
 file_0 = np.array(h5py.File(file_name_0, 'r').file.get('Data').get('Table Layout'))
 file_1 = np.array(h5py.File(file_name_1, 'r').file.get('Data').get('Table Layout'))
