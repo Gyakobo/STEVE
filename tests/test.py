@@ -9,7 +9,6 @@ from math import *
 from endolith_peakdet import *
 
 
-
 # Essential Variables ######################
 file_name_0   = "/home/andrew/STEVE/madrigalWeb/madrigalWeb/downloads/pfa070301.002.hdf5"
 file_name_1   = "/home/andrew/STEVE/madrigalWeb/madrigalWeb/downloads/pfa070327.002.hdf5"
