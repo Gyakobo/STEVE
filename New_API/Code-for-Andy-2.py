@@ -12,9 +12,16 @@ import datetime
 import time
 import sys
 
+from openpyxl import Workbook
 
 
+# Excell Specifics #######################################
+#wb = Workbook()
 
+# Grab the active worksheet
+#ws = wb.active 
+
+###########################################################
 
 
 # My Edits ################################################
@@ -36,17 +43,26 @@ def isNaN(num):
 def get_peaks(data, epochData, THRESHOLD = 2):
   m_data = [] 
 
+  ###################
+  # Golden Ratio = 15
+  ###################
 
   time_interval = (epochData[0][1] - epochData[0][0]) // 60 # Number of minutes
-  print("time_interval = " + time_interval)
+  print("time_interval = " + str(time_interval))
   delimeter = 15 // time_interval
-  print("delimeter = " + delimeter) # Naming might be wrong(who would have guessed), but 
+  print("delimeter = " + str(delimeter), end="\n\n") # Naming might be wrong(who would have guessed), but 
+
+  try:
+    data      = data[::int(delimeter)]
+    #epochData = epochData[::int(delimeter)]
+    print(epochData)
+  except:
+    print("Problem with delimeter")
 
   for item in data:
     if not isNaN(item[0]):
       m_data.append(item[0])
   #data = m_data
-
 
   mean    = sum(m_data) / len(m_data)
   std_dev = (sum( [ (val-mean)**2 for val in m_data ] )/ (len(m_data)-1))**0.5
@@ -60,14 +76,17 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   for var in peaks_y:
     index = data.index(var[0])
     peaks_x.append(epochData[index]) 
+    
+    # Append a row
+    #ws.append([peaks_x, peaks_y])
 
-  ''' 
+  print("Working on file" + sys.argv[1] + "------------------------------")
   print('THESE ARE PEAKS ON THE X-AXIS')
   print(np.array(peaks_x))
   print('------------------------------------------')
   print('THESE ARE PEAKS ON THE Y-AXIS')
   print(np.array(peaks_y))
-  '''
+  print("----------------------------------------------------------------", end="\n\n")
 
   #plunges_x   = [ (val, ) for val in array(plunges)[:,0] ] # Plunges per index
   plunges_y   = [ (val, ) for val in array(plunges)[:,1] ]
@@ -75,9 +94,12 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     index = data.index(var[0])
     plunges_x.append(epochData[index]) 
 
+
+  # Save the file
+  #wb.save('/excel_files/' + sys.argv[1] + 'xlsx')
+
+
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
-  
-  #return array(peaks)[:,0], array(peaks)[:,1], array(plunges)[:,0], array(plunges)[:,1], std_dev, mean
 
 
 ###########################################################
@@ -90,16 +112,18 @@ def get_peaks(data, epochData, THRESHOLD = 2):
 
 
 # CUSTOMIZE THE PATH TO THE DATAFILE RELATIVE TO THE CODE
-path = "../../PFISR_data/"
+path = "/home/andrew/PFISR_data/"
 
 # INSERT THE NAME OF THE h5 DATAFILE YOU HAVE DOWNLOADED AND WOULD LIKE TO PLOT
 # filename = "TIspike20220406.005_lp_1min-fitcal.h5"
 filename = sys.argv[1]
 
 # THIS OPENS THE DATA FILE OF INTEREST
-f  = h5.File(path+filename, 'r')
+try:
+  f  = h5.File(path+filename, 'r')
+except:
+  print("Cannot open file")
 
-# BEAM PARAMETERS (E.G. ELEVATION ANGLE, AZIMUTH, ETC)
 beamcodes = f['BeamCodes']
 beamcodesdata = beamcodes[:,:]
 beamcodesdata = beamcodesdata.astype(float)    
@@ -213,7 +237,8 @@ for i in range(len(altdata)):
     plt.figure(figsize=(14, 7))
     
     plt.plot(epochData, Ti275) 
-    #plt.plot(Ti275)
+    # plt.plot(Ti275)
+    
     ''' 
     print('JUST EPOCHDATA')
     print(epochData)
@@ -222,11 +247,11 @@ for i in range(len(altdata)):
     print(Ti275)
     ''' 
     
-    plt.plot(peaks_x, peaks_y, color="blue")
-    #plt.scatter(plunges_x, plunges_y, color="red")
+    #plt.plot(peaks_x, peaks_y, color="blue")
+    #plt.plot(plunges_x, plunges_y, color="red")
     
     
-    plt.title('Ti at 275 km')
+    plt.title('Ti at 275 km' + filename)
     plt.grid(True)
     plt.xlabel('Epoch Time')
     plt.ylabel('Line-of-Sight Ion Temperature [K]')

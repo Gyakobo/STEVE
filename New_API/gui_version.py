@@ -1,5 +1,6 @@
 from tkinter import *
 import os
+import subprocess
 
 # GUI Prerequisites #############
 root = Tk()
@@ -16,7 +17,12 @@ l1.grid(row=1, column=0)
 
 def change_name(k):
     my_str.set("Working with: " + str(k))
-    os.system("sudo Code-for-Andy-2.py " + str(k))
+    #os.system("sudo Code-for-Andy-2.py " + str(k))
+    #subprocess.call("sudo Code-for-Andy-2.py " + str(k), shell=True)
+    p = subprocess.Popen(['python3', 'Code-for-Andy-2.py', str(k)])
+    print("##############################")
+    print("sudo Code-for-Andy-2.py " + str(k))
+    print("##############################")
 #################################
 
 
@@ -32,7 +38,7 @@ for path in os.listdir(dir_path):
     if os.path.isfile(os.path.join(dir_path, path)):
         res.append(path)
 
-print(res)
+#print(res)
 
 for j in range(len(res)):
     e = Button(root, text=res[j], command=lambda k=res[j]:change_name(k))
