@@ -10,8 +10,7 @@ import matplotlib.pyplot as plt
 import math
 import datetime
 import time
-
-
+import sys
 
 
 
@@ -36,6 +35,12 @@ def isNaN(num):
 # Dr.Gareth asked to change the THRESHOLD
 def get_peaks(data, epochData, THRESHOLD = 2):
   m_data = [] 
+
+
+  time_interval = (epochData[0][1] - epochData[0][0]) // 60 # Number of minutes
+  print("time_interval = " + time_interval)
+  delimeter = 15 // time_interval
+  print("delimeter = " + delimeter) # Naming might be wrong(who would have guessed), but 
 
   for item in data:
     if not isNaN(item[0]):
@@ -88,7 +93,8 @@ def get_peaks(data, epochData, THRESHOLD = 2):
 path = "../../PFISR_data/"
 
 # INSERT THE NAME OF THE h5 DATAFILE YOU HAVE DOWNLOADED AND WOULD LIKE TO PLOT
-filename = "TIspike20220406.005_lp_1min-fitcal.h5"
+# filename = "TIspike20220406.005_lp_1min-fitcal.h5"
+filename = sys.argv[1]
 
 # THIS OPENS THE DATA FILE OF INTEREST
 f  = h5.File(path+filename, 'r')
@@ -197,7 +203,6 @@ for i in range(len(altdata)):
     # Still my edits ##################################
     try:
       peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
-      print(epochData[0][1] - epochData[0][0])
 
     except:
       print('Something went wrong')

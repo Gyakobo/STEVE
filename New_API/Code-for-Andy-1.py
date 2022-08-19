@@ -27,7 +27,8 @@ for t in range(len(files)):
 
   filesexists = -30
   try:
-    urllib.request.urlretrieve(url, 'Andy PFISR/'+filename)
+    #urllib.request.urlretrieve(url, 'Andy PFISR/'+filename)
+    urllib.request.urlretrieve(url, '/home/andrew/PFISR_data/'+filename)
   except urllib.error.HTTPError as err:
     print(err.code)
     filesexists = err.code
@@ -35,8 +36,10 @@ for t in range(len(files)):
 
   if filesexists == -30:  
 
-    fs = h5.File('Andy PFISR/'+filename, 'r')
-    fd = h5.File('Andy PFISR/TIspike'+filename, 'w')
+    #fs = h5.File('Andy PFISR/'+filename, 'r')
+    #fd = h5.File('Andy PFISR/TIspike'+filename, 'w')
+    fs = h5.File('/home/andrew/PFISR_data/'+filename, 'r')
+    fd = h5.File('/home/andrew/PFISR_data/TIspike'+filename, 'w')
 
 
     for a in fs.attrs:
@@ -72,7 +75,8 @@ for t in range(len(files)):
 
     fs.close()
     fd.close()
-    os.remove('Andy PFISR/'+filename)
+    #os.remove('Andy PFISR/'+filename)
+    os.remove('/home/andrew/PFISR_data/'+filename)
 
 
 
