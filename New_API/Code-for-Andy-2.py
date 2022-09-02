@@ -41,29 +41,42 @@ def isNaN(num):
 # Gets the peaks and the given plunges of a given array
 # Dr.Gareth asked to change the THRESHOLD
 def get_peaks(data, epochData, THRESHOLD = 2):
-  m_data = [] 
+  m_data = []
+  m_list_epochData = [] 
 
-  ###################
-  # Golden Ratio = 15
-  ###################
+  #####################
+  # Golden Ratio = 15 #
+  #####################
 
-  time_interval = (epochData[0][1] - epochData[0][0]) // 60 # Number of minutes
-  print("time_interval = " + str(time_interval))
-  delimeter = 15 // time_interval
-  print("delimeter = " + str(delimeter), end="\n\n") # Naming might be wrong(who would have guessed), but 
+  time_interval = (epochData[0][1] - epochData[0][0]) // 60.0 # Number of minutes
+  print("time_interval_between_readings = ", str(time_interval), "minute(s)")
+  delimeter = int(15 / time_interval)
+  print("delimeter = " + str(delimeter), end="\n\n") # Naming might be wrong(who would have guessed), but it works... Does it?
 
+  '''
   try:
-    data      = data[::int(delimeter)]
-    #epochData = epochData[::int(delimeter)]
-    print(epochData)
+    data      = data[::delimeter]
+    epochData = epochData[::delimeter]
   except:
     print("Problem with delimeter")
+    print("len(data) =",len(data), end='\n')
+  '''
 
-  for item in data:
+  for idx, item in enumerate(data):
     if not isNaN(item[0]):
       m_data.append(item[0])
-  #data = m_data
+      m_list_epochData.append(epochData.tolist()[idx])
+  
+  data = m_data
+  #epochData = np.array(m_list_epochData)
 
+  print('len of data: ' + str(len((m_data))))
+  print('len of epochData: ' + str(len(m_list_epochData)))
+
+  return m_data
+
+
+  '''
   mean    = sum(m_data) / len(m_data)
   std_dev = (sum( [ (val-mean)**2 for val in m_data ] )/ (len(m_data)-1))**0.5
   peaks, plunges = peakdet(m_data, THRESHOLD*std_dev)
@@ -79,7 +92,7 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     
     # Append a row
     #ws.append([peaks_x, peaks_y])
-
+  
   print("Working on file" + sys.argv[1] + "------------------------------")
   print('THESE ARE PEAKS ON THE X-AXIS')
   print(np.array(peaks_x))
@@ -87,7 +100,7 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   print('THESE ARE PEAKS ON THE Y-AXIS')
   print(np.array(peaks_y))
   print("----------------------------------------------------------------", end="\n\n")
-
+  
   #plunges_x   = [ (val, ) for val in array(plunges)[:,0] ] # Plunges per index
   plunges_y   = [ (val, ) for val in array(plunges)[:,1] ]
   for var in plunges_y:
@@ -98,9 +111,8 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   # Save the file
   #wb.save('/excel_files/' + sys.argv[1] + 'xlsx')
 
-
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
-
+  '''
 
 ###########################################################
 
@@ -201,7 +213,6 @@ ut = [datetime.datetime(int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[0]), 
                        for t in range(len(epochData))]
 
 # ERRONEOUS POINTS ARE REMOVED (COMMENT THIS OUT TO VIEW ALL MEASUREMENTS)
-
 '''
 for tt in range(len(nedata)):
   for ii in range(len(nedata[0])):
@@ -213,7 +224,6 @@ for tt in range(len(nedata)):
       if tedata[tt,ii,jj] < dtedata[tt,ii,jj]:
         tedata[tt,ii,jj] = np.NaN
 '''
-
 # WE CYCLE THROUGH THE DIFFERENT BEAMS IN THE EXPERIMENT
 for i in range(len(altdata)):
 # WE FOCUS ON THE BEAM PARALLEL TO THE MAGNETIC FIELD (BEAM CODE 64157)    
@@ -226,8 +236,8 @@ for i in range(len(altdata)):
 
     # Still my edits ##################################
     try:
-      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
-
+      #peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
+      epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
     except:
       print('Something went wrong')
     ###################################################
@@ -236,8 +246,8 @@ for i in range(len(altdata)):
     #WE PLOT TI
     plt.figure(figsize=(14, 7))
     
-    plt.plot(epochData, Ti275) 
-    # plt.plot(Ti275)
+    # plt.plot(epochData, Ti275) 
+    plt.plot(Ti275)
     
     ''' 
     print('JUST EPOCHDATA')
