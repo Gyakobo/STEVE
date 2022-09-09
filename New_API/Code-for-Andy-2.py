@@ -44,16 +44,22 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   m_data = []
   m_list_epochData = [] 
 
+  print("\n\n\n")
+  print("Sample variable #######")
+  print(epochData[0])
+  print("#######################\n\n\n")
+
   #####################
-  # Golden Ratio = 15 #
+  # Golden Number = 15 #
   #####################
 
+  # Gor rid of the interval altogether
+  '''
   time_interval = (epochData[0][1] - epochData[0][0]) // 60.0 # Number of minutes
   print("time_interval_between_readings = ", str(time_interval), "minute(s)")
   delimeter = int(15 / time_interval)
   print("delimeter = " + str(delimeter), end="\n\n") # Naming might be wrong(who would have guessed), but it works... Does it?
-
-  '''
+  
   try:
     data      = data[::delimeter]
     epochData = epochData[::delimeter]
@@ -73,10 +79,6 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   print('len of data: ' + str(len((m_data))))
   print('len of epochData: ' + str(len(m_list_epochData)))
 
-  return m_data
-
-
-  '''
   mean    = sum(m_data) / len(m_data)
   std_dev = (sum( [ (val-mean)**2 for val in m_data ] )/ (len(m_data)-1))**0.5
   peaks, plunges = peakdet(m_data, THRESHOLD*std_dev)
@@ -91,7 +93,7 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     peaks_x.append(epochData[index]) 
     
     # Append a row
-    #ws.append([peaks_x, peaks_y])
+    # ws.append([peaks_x, peaks_y])
   
   print("Working on file" + sys.argv[1] + "------------------------------")
   print('THESE ARE PEAKS ON THE X-AXIS')
@@ -112,7 +114,6 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   #wb.save('/excel_files/' + sys.argv[1] + 'xlsx')
 
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
-  '''
 
 ###########################################################
 
@@ -213,7 +214,7 @@ ut = [datetime.datetime(int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[0]), 
                        for t in range(len(epochData))]
 
 # ERRONEOUS POINTS ARE REMOVED (COMMENT THIS OUT TO VIEW ALL MEASUREMENTS)
-'''
+
 for tt in range(len(nedata)):
   for ii in range(len(nedata[0])):
     for jj in range(len(nedata[0,0])):
@@ -223,7 +224,7 @@ for tt in range(len(nedata)):
         tidata[tt,ii,jj] = np.NaN
       if tedata[tt,ii,jj] < dtedata[tt,ii,jj]:
         tedata[tt,ii,jj] = np.NaN
-'''
+
 # WE CYCLE THROUGH THE DIFFERENT BEAMS IN THE EXPERIMENT
 for i in range(len(altdata)):
 # WE FOCUS ON THE BEAM PARALLEL TO THE MAGNETIC FIELD (BEAM CODE 64157)    
@@ -236,8 +237,8 @@ for i in range(len(altdata)):
 
     # Still my edits ##################################
     try:
-      #peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
-      epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
+      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
+      #epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
     except:
       print('Something went wrong')
     ###################################################
@@ -246,8 +247,8 @@ for i in range(len(altdata)):
     #WE PLOT TI
     plt.figure(figsize=(14, 7))
     
-    # plt.plot(epochData, Ti275) 
-    plt.plot(Ti275)
+    plt.plot(epochData, Ti275) 
+    # plt.plot(Ti275)
     
     ''' 
     print('JUST EPOCHDATA')
@@ -261,11 +262,11 @@ for i in range(len(altdata)):
     #plt.plot(plunges_x, plunges_y, color="red")
     
     
-    plt.title('Ti at 275 km' + filename)
+    plt.title('Ti at 275 km_' + filename)
     plt.grid(True)
     plt.xlabel('Epoch Time')
     plt.ylabel('Line-of-Sight Ion Temperature [K]')
-    plotfile = 'Andy PFISR/275{}.png'.format(filename.split("_")[0])
+    plotfile = 'Andy PFISR/275{} - {}.png'.format(filename.split("_")[0], sys.argv[1])
     plt.savefig(plotfile)
     plt.cla()   # Clear axis
     plt.clf()   # Clear figure
