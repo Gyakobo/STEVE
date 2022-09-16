@@ -53,21 +53,6 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   # Golden Number = 15 #
   #####################
 
-  # Gor rid of the interval altogether
-  '''
-  time_interval = (epochData[0][1] - epochData[0][0]) // 60.0 # Number of minutes
-  print("time_interval_between_readings = ", str(time_interval), "minute(s)")
-  delimeter = int(15 / time_interval)
-  print("delimeter = " + str(delimeter), end="\n\n") # Naming might be wrong(who would have guessed), but it works... Does it?
-  
-  try:
-    data      = data[::delimeter]
-    epochData = epochData[::delimeter]
-  except:
-    print("Problem with delimeter")
-    print("len(data) =",len(data), end='\n')
-  '''
-
   for idx, item in enumerate(data):
     if not isNaN(item[0]):
       m_data.append(item[0])
@@ -247,7 +232,8 @@ for i in range(len(altdata)):
     #WE PLOT TI
     plt.figure(figsize=(14, 7))
     
-    plt.plot(epochData, Ti275) 
+    plt.plot(epochData[0:,0], Ti275, color="orange")
+    #print(epochData[0:,0])
     # plt.plot(Ti275)
     
     ''' 
@@ -258,8 +244,8 @@ for i in range(len(altdata)):
     print(Ti275)
     ''' 
     
-    #plt.plot(peaks_x, peaks_y, color="blue")
-    #plt.plot(plunges_x, plunges_y, color="red")
+    plt.scatter(peaks_x[0:,0], peaks_y, color="blue")
+    plt.scatter(plunges_x[0:,0], plunges_y, color="red")
     
     
     plt.title('Ti at 275 km_' + filename)
