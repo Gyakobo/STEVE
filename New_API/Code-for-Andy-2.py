@@ -74,8 +74,8 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   #peaks_x   = [ (val, ) for val in array(peaks)[:,0] ] #Peaks per index
   peaks_y   = [ (val, ) for val in array(peaks)[:,1] ]
   for var in peaks_y:
-    index = data.index(var[0])
-    peaks_x.append(epochData[index]) 
+    index = m_data.index(var[0])
+    peaks_x.append(m_list_epochData[index]) 
     
     # Append a row
     # ws.append([peaks_x, peaks_y])
@@ -91,8 +91,8 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   #plunges_x   = [ (val, ) for val in array(plunges)[:,0] ] # Plunges per index
   plunges_y   = [ (val, ) for val in array(plunges)[:,1] ]
   for var in plunges_y:
-    index = data.index(var[0])
-    plunges_x.append(epochData[index]) 
+    index = m_data.index(var[0])
+    plunges_x.append(m_list_epochData[index]) 
 
 
   # Save the file
@@ -233,6 +233,7 @@ for i in range(len(altdata)):
     plt.figure(figsize=(14, 7))
     
     plt.plot(epochData[0:,0], Ti275, color="orange")
+
     #print(epochData[0:,0])
     # plt.plot(Ti275)
     
@@ -243,7 +244,7 @@ for i in range(len(altdata)):
     print('ACTUAL TI')
     print(Ti275)
     ''' 
-    
+
     plt.scatter(peaks_x[0:,0], peaks_y, color="blue")
     plt.scatter(plunges_x[0:,0], plunges_y, color="red")
     
