@@ -1,0 +1,42 @@
+/* add styles here */
+
+h1 {
+    font-weight: 500;
+    letter-spacing: 5px;
+    color:deeppink;
+    text-align: center;
+}
+
+span {
+    border-radius: 50%;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.color1 {
+    background-color: #fcba03;
+}
+.color2 {
+    background-color: #fc9003;
+}
+.color3 {
+    background-color: #fc7303;
+}
+.color4 {
+    background-color: #f5a05b;
+}
+.color5 {
+    background-color: #f57c5b;
+}
+
+.details {
+    font-size: 16px;
+}
+
+h2, h3, h4 {
+
+}
+
+.bodytext, .asidetext {
+
+}
