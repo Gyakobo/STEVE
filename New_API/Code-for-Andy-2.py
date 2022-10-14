@@ -16,11 +16,17 @@ from openpyxl import Workbook
 
 
 # Excell Specifics #######################################
-#wb = Workbook()
+wb = Workbook()
 
 # Grab the active worksheet
-#ws = wb.active 
+ws = wb.active 
 
+# TODO list
+# Time - make a normal date [year, month, date]
+# ne - Plasma density
+
+data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne']
+ws.append(data)
 ###########################################################
 
 
@@ -30,6 +36,9 @@ from math import *
 
 # EVIL Peak finding function
 from endolith_peakdet import *
+
+# General data file structure
+
 
 # Check whether the argument is a NaN
 def isNaN(num):
@@ -78,8 +87,13 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     peaks_x.append(m_list_epochData[index]) 
     
     # Append a row
-    # ws.append([peaks_x, peaks_y])
-  
+    #ws.append([peaks_x, peaks_y])
+
+  # Save to excel file A 
+  for index, peak in enumerate(peaks_x): 
+    ws['A' + str(index+2)] = peak[0]
+
+
   print("Working on file" + sys.argv[1] + "------------------------------")
   print('THESE ARE PEAKS ON THE X-AXIS')
   print(np.array(peaks_x))
@@ -94,9 +108,12 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     index = m_data.index(var[0])
     plunges_x.append(m_list_epochData[index]) 
 
+  # Save to excel file B
+  for index, peak in enumerate(peaks_y): 
+    ws['B' + str(index+2)] = peak[0]
 
   # Save the file
-  #wb.save('/excel_files/' + sys.argv[1] + 'xlsx')
+  wb.save('./excel_files/' + sys.argv[1] + 'xlsx')
 
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
 
@@ -219,10 +236,17 @@ for i in range(len(altdata)):
     a = abs(altdata[i,:] - 275)
     b = np.where(a == np.nanmin(a))
     Ti275 = tidata[:,i,b[0]]
+    ne275 = nedata[:,i,b[0]]
+
+
+
+
+
 
     # Still my edits ##################################
     try:
-      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
+      # Threshold = 3.5
+      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( jj.tolist(), epochData, THRESHOLD=3.5 )
       #epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
     except:
       print('Something went wrong')
