@@ -49,8 +49,9 @@ def isNaN(num):
 
 # Gets the peaks and the given plunges of a given array
 # Dr.Gareth asked to change the THRESHOLD
-def get_peaks(data, epochData, THRESHOLD = 2):
+def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
   m_data = []
+  m_ne_data = []
   m_list_epochData = [] 
 
   print("\n\n\n")
@@ -65,13 +66,15 @@ def get_peaks(data, epochData, THRESHOLD = 2):
   for idx, item in enumerate(data):
     if not isNaN(item[0]):
       m_data.append(item[0])
+      m_ne_data.append(ne_data[idx])
       m_list_epochData.append(epochData.tolist()[idx])
   
-  data = m_data
-  #epochData = np.array(m_list_epochData)
+  #data = m_data
+  #ne_data = m_ne_data
 
   print('len of data: ' + str(len((m_data))))
-  print('len of epochData: ' + str(len(m_list_epochData)))
+  print('len of ne_data: ' + str(len((m_ne_data))))
+  print('len of epochData: ' + str(len(m_list_epochData)), end='\n\n')
 
   mean    = sum(m_data) / len(m_data)
   std_dev = (sum( [ (val-mean)**2 for val in m_data ] )/ (len(m_data)-1))**0.5
@@ -79,19 +82,14 @@ def get_peaks(data, epochData, THRESHOLD = 2):
 
   peaks_x = []
   plunges_x = []
+  ne_at_275 = []
 
   #peaks_x   = [ (val, ) for val in array(peaks)[:,0] ] #Peaks per index
   peaks_y   = [ (val, ) for val in array(peaks)[:,1] ]
   for var in peaks_y:
     index = m_data.index(var[0])
     peaks_x.append(m_list_epochData[index]) 
-    
-    # Append a row
-    #ws.append([peaks_x, peaks_y])
-
-  # Save to excel file A 
-  for index, peak in enumerate(peaks_x): 
-    ws['A' + str(index+2)] = peak[0]
+    ne_at_275.append(m_ne_data[index])
 
 
   print("Working on file" + sys.argv[1] + "------------------------------")
@@ -108,9 +106,28 @@ def get_peaks(data, epochData, THRESHOLD = 2):
     index = m_data.index(var[0])
     plunges_x.append(m_list_epochData[index]) 
 
-  # Save to excel file B
+
+
+
+
+  # Save to excel file A ------------------------------------------------
+  for index, peak in enumerate(peaks_x): 
+    ws['A' + str(index+2)] = peak[0]
+  # ---------------------------------------------------------------------
+  
+  # Save to excel file B ------------------------------------------------
   for index, peak in enumerate(peaks_y): 
     ws['B' + str(index+2)] = peak[0]
+  # ---------------------------------------------------------------------
+
+  # Save to excel file D ------------------------------------------------
+  for index, val in enumerate(ne_at_275): 
+    ws['D' + str(index+2)] = ne_at_275[val]
+  # ---------------------------------------------------------------------
+
+
+
+
 
   # Save the file
   wb.save('./excel_files/' + sys.argv[1] + 'xlsx')
@@ -235,10 +252,10 @@ for i in range(len(altdata)):
     #WE FIND THE ION TEMPERATURE MEASURED CLOSEST TO 275 KM      
     a = abs(altdata[i,:] - 275)
     b = np.where(a == np.nanmin(a))
-    Ti275 = tidata[:,i,b[0]]
-    ne275 = nedata[:,i,b[0]]
-
-
+    Ti275     = tidata[:,i,b[0]]
+    ne275     = nedata[:,i,b[0]]
+    Ti_error  = dtidata[:,i,b[0]]
+    ne_error  = dnedata[:,i,b[0]]
 
 
 
@@ -246,7 +263,14 @@ for i in range(len(altdata)):
     # Still my edits ##################################
     try:
       # Threshold = 3.5
-      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
+      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( 
+              Ti275.tolist(), 
+              ne275.tolist(), 
+              Ti_error.tolist(), 
+              ne_error.tolist(),
+              epochData, 
+              THRESHOLD=3.5 
+            )
       #epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
     except:
       print('Something went wrong')
