@@ -13,10 +13,11 @@ import time
 import sys
 
 from openpyxl import Workbook
-
+import openpyxl
 
 # Excell Specifics #######################################
-wb = Workbook()
+#wb = Workbook()
+wb = openpyxl.load_workbook('./excel_files/' + 'Dataset_2018' + '.xlsx')
 
 # Grab the active worksheet
 ws = wb.active 
@@ -25,7 +26,7 @@ ws = wb.active
 # Time - make a normal date [year, month, date]
 # ne - Plasma density
 
-data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne']
+data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
 ws.append(data)
 ###########################################################
 
@@ -52,6 +53,8 @@ def isNaN(num):
 def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
   m_data = []
   m_ne_data = []
+  m_ti_error = []
+  m_ne_error = []
   m_list_epochData = [] 
 
   print("\n\n\n")
@@ -67,6 +70,8 @@ def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
     if not isNaN(item[0]):
       m_data.append(item[0])
       m_ne_data.append(ne_data[idx])
+      m_ti_error.append(Ti_error[idx])
+      m_ne_error.append(ne_error[idx])
       m_list_epochData.append(epochData.tolist()[idx])
   
   #data = m_data
@@ -82,15 +87,19 @@ def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
 
   peaks_x = []
   plunges_x = []
-  ne_at_275 = []
+
+  ne_at_275_lst = []
+  ti_error_lst = []
+  ne_error_lst = []
 
   #peaks_x   = [ (val, ) for val in array(peaks)[:,0] ] #Peaks per index
   peaks_y   = [ (val, ) for val in array(peaks)[:,1] ]
   for var in peaks_y:
     index = m_data.index(var[0])
     peaks_x.append(m_list_epochData[index]) 
-    ne_at_275.append(m_ne_data[index])
-
+    ne_at_275_lst.append(m_ne_data[index])
+    ti_error_lst.append(m_ti_error[index])
+    ne_error_lst.append(m_ne_error[index])
 
   print("Working on file" + sys.argv[1] + "------------------------------")
   print('THESE ARE PEAKS ON THE X-AXIS')
@@ -109,28 +118,40 @@ def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
 
 
 
-
-  # Save to excel file A ------------------------------------------------
+  '''
+  # Save to excel file col A --------------------------------------------
   for index, peak in enumerate(peaks_x): 
     ws['A' + str(index+2)] = peak[0]
   # ---------------------------------------------------------------------
   
-  # Save to excel file B ------------------------------------------------
+  # Save to excel file col B --------------------------------------------
   for index, peak in enumerate(peaks_y): 
     ws['B' + str(index+2)] = peak[0]
   # ---------------------------------------------------------------------
-
-  # Save to excel file D ------------------------------------------------
-  for index, val in enumerate(ne_at_275): 
-    ws['D' + str(index+2)] = ne_at_275[val]
+  
+  # Save to excel file col C --------------------------------------------
+  for index, val in enumerate(ti_error_lst): 
+    ws['C' + str(index+2)] = val[0]
   # ---------------------------------------------------------------------
 
+  # Save to excel file col D --------------------------------------------
+  for index, val in enumerate(ne_at_275_lst): 
+    ws['D' + str(index+2)] = val[0]
+  # ---------------------------------------------------------------------
+  
+  # Save to excel file col E and col F ----------------------------------
+  for index, val in enumerate(ne_error_lst): 
+    ws['E' + str(index+2)] = val[0]
+    ws['F' + str(index+2)] = sys.argv[1]
+  # ---------------------------------------------------------------------
+  '''
 
-
-
+  for index, val in enumerate(peaks_x): 
+    ws.append( (val[0], peaks_y[index][0], ti_error_lst[index][0], ne_at_275_lst[index][0], ne_error_lst[index][0], sys.argv[1]) )
 
   # Save the file
-  wb.save('./excel_files/' + sys.argv[1] + 'xlsx')
+  #wb.save('./excel_files/' + sys.argv[1] + '.xlsx')
+  wb.save('./excel_files/' + 'Dataset_2018' + '.xlsx')
 
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
 
