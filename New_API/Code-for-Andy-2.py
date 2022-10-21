@@ -246,7 +246,7 @@ for i in range(len(altdata)):
     # Still my edits ##################################
     try:
       # Threshold = 3.5
-      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( jj.tolist(), epochData, THRESHOLD=3.5 )
+      peaks_x, peaks_y, plunges_x, plunges_y, std_dev, mean = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )
       #epochData = get_peaks( Ti275.tolist(), epochData, THRESHOLD=3.5 )     
     except:
       print('Something went wrong')
