@@ -1,3 +1,4 @@
+from fileinput import filename
 from tkinter import *
 import os
 import subprocess
@@ -40,8 +41,16 @@ for path in os.listdir(dir_path):
 
 #print(res)
 
+for file_name in res:
+    my_str.set("Working with: " + file_name)
+    subprocess.call(['python3', 'Code-for-Andy-2.py', file_name])
+
+
+
+
 for j in range(len(res)):
     e = Button(root, text=res[j], command=lambda k=res[j]:change_name(k))
+    #e.invoke()
     e.grid(row=j+2, column=0, padx=2, pady=2)
 
 root.mainloop()

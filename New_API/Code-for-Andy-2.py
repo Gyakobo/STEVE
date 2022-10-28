@@ -25,14 +25,19 @@ data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
 try:
   wb = openpyxl.load_workbook('./excel_files/' + name_of_file + '.xlsx')
   ws = wb.active
-  
-  #cell_obj = ws.cell(row=1, column=1)
-  #if cell_obj != "Time":
-  #  ws.append(data)
+
+  print("Found file", end="\n\n")
+
 except:
   wb = Workbook()
   ws = wb.active
   ws.append(data)
+
+  print("Create the file", end='\n\n')
+
+  #cell_obj = ws.cell(row=1, column=1)
+  #if cell_obj != "Time":
+  #  ws.append(data)
 
 # TODO list
 # Time - make a normal date [year, month, date]
