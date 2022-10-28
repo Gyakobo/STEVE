@@ -4,6 +4,7 @@
 
 # IMPORT THE REQUIRED LIBRARIES (DO NOT TOUCH, UNLESS ALTERING THE CODE)
 from random import sample
+from unicodedata import name
 import h5py as h5
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,28 +16,43 @@ import sys
 from openpyxl import Workbook
 import openpyxl
 
-# Excell Specifics #######################################
-#wb = Workbook()
-wb = openpyxl.load_workbook('./excel_files/' + 'Dataset_2018' + '.xlsx')
 
-# Grab the active worksheet
-ws = wb.active 
+name_of_file = "Dataset_2018"
+
+
+# Excell Specifics #######################################
+data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
+try:
+  wb = openpyxl.load_workbook('./excel_files/' + name_of_file + '.xlsx')
+  ws = wb.active
+  
+  #cell_obj = ws.cell(row=1, column=1)
+  #if cell_obj != "Time":
+  #  ws.append(data)
+except:
+  wb = Workbook()
+  ws = wb.active
+  ws.append(data)
 
 # TODO list
 # Time - make a normal date [year, month, date]
 # ne - Plasma density
-
-data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
-ws.append(data)
 ###########################################################
+
+
+
+
+
 
 
 # My Edits ################################################
 from numpy import NaN, Inf, arange, isscalar, asarray, array
 from math import *
-
 # EVIL Peak finding function
 from endolith_peakdet import *
+
+
+
 
 # General data file structure
 
@@ -151,7 +167,7 @@ def get_peaks(data, ne_data, Ti_error, ne_error, epochData, THRESHOLD = 2):
 
   # Save the file
   #wb.save('./excel_files/' + sys.argv[1] + '.xlsx')
-  wb.save('./excel_files/' + 'Dataset_2018' + '.xlsx')
+  wb.save('./excel_files/' + name_of_file + '.xlsx')
 
   return np.array(peaks_x), np.array(peaks_y), np.array(plunges_x), np.array(plunges_y), std_dev, mean
 
