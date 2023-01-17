@@ -17,7 +17,7 @@ from openpyxl import Workbook
 import openpyxl
 
 
-name_of_file = "Dataset_2015"
+name_of_file = "Dataset_2016"
 
 
 # Excell Specifics #######################################
@@ -56,6 +56,10 @@ from math import *
 # EVIL Peak finding function
 from endolith_peakdet import *
 
+
+def EPOCH_to_DATE(epoch_time):
+  date_conv = datetime.datetime.fromtimestamp(epoch_time)
+  return date_conv.strftime("%d-%m-%Y")
 
 
 
