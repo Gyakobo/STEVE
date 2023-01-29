@@ -31,20 +31,6 @@ def EPOCH_to_min(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
     return int(date_conv.strftime("%M"))
 
-swarm_a_sim = {
-    'x': [],
-    'y': [],
-} 
-
-swarm_b_sim = {
-    'x': [],
-    'y': [],
-} 
-
-swarm_c_sim = {
-    'x': [],
-    'y': [],
-} 
 #################################
 
 
@@ -68,12 +54,20 @@ for i in range(1, sheet_obj_swarm_c):
     pass
 '''
 
-y = []
+y_a = []
+x_a = []
+
+y_b = []
+x_b = []
+
+y_c = []
+x_c = []
+
 x = []
+y = []
 numbs = [] 
 
 for i in range(1, sheet_obj.max_row): #1189
-    # x.append(EPOCH_to_DATE(sheet_obj.cell(row=i+1, column=1).value))
     x_slot = sheet_obj.cell(row=i+1, column=1).value 
     y_slot = sheet_obj.cell(row=i+1, column=2).value 
 
@@ -82,31 +76,28 @@ for i in range(1, sheet_obj.max_row): #1189
         #harsh_te    = sheet_obj_swarm_a.cell(row=j+1, column=2).value
         harsh_long  = sheet_obj_swarm_a.cell(row=j+1, column=3).value
         harsh_lat   = sheet_obj_swarm_a.cell(row=j+1, column=4).value
-
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x.append(x_slot)
-            y.append(y_slot)
+            x_a.append(x_slot)
+            y_a.append(y_slot)
+
     for j in range(1, sheet_obj_swarm_b.max_row):
         harsh_epoch_time = sheet_obj_swarm_b.cell(row=j+1, column=1).value.timestamp()
         #harsh_te    = sheet_obj_swarm_b.cell(row=j+1, column=2).value
         harsh_long  = sheet_obj_swarm_b.cell(row=j+1, column=3).value
         harsh_lat   = sheet_obj_swarm_b.cell(row=j+1, column=4).value
-
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x.append(x_slot)
-            y.append(y_slot)
+            x_b.append(x_slot)
+            y_b.append(y_slot)
+
     for j in range(1, sheet_obj_swarm_c.max_row):
         harsh_epoch_time = sheet_obj_swarm_c.cell(row=j+1, column=1).value.timestamp()
         #harsh_te    = sheet_obj_swarm_a.cell(row=j+1, column=2).value
         harsh_long  = sheet_obj_swarm_c.cell(row=j+1, column=3).value
         harsh_lat   = sheet_obj_swarm_c.cell(row=j+1, column=4).value
-
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x.append(x_slot)
-            y.append(y_slot)
-
-
-
+            x_c.append(x_slot)
+            y_c.append(y_slot)
+'''
 for i in range(len(x)):
     numbs.append([x[i], y[i]])
 def lambda_(element):
@@ -118,32 +109,55 @@ x_m = []
 for i in range(len(x)):
     x_m.append( EPOCH_to_DATE(numbs[i][0]) )
     y_m.append( numbs[i][1] )
-
+'''
 
 IT_storms = ( 
-[1476139380, 1476475320],
+#[1476139380, 1476475320],
 [1457058240, 1457620560],
 [1462641000, 1462978080],
 [1453203960, 1453483860],
-[1471662420, 1472106180],
-[1477335480, 1478023800]
+#[1471662420, 1472106180],
+#[1477335480, 1478023800]
 )
  
-'''
-for i in IT_storms:
-    print( EPOCH_to_DATE(i[0]),',', EPOCH_to_DATE(i[1]) )
-'''
 
 plt.figure(figsize=(14, 9))
+
+# A + B + C
+'''
+for i in range(len(x)):
+    numbs.append([x[i], y[i]])
+def lambda_(element):
+    return element[0] 
+numbs = sorted(numbs, key = lambda_)
+
+y_m = []
+x_m = []
+for i in range(len(x)):
+    x_m.append( EPOCH_to_DATE(numbs[i][0]) )
+    y_m.append( numbs[i][1] )
 plt.scatter(x_m, y_m, color="orange")
+plt.xticks(x_m, rotation='vertical')
+'''
+
+
+# A, B, C
+plt.scatter(x_a, y_a, color="orange", label="SWARM A")
+
+plt.scatter(x_b, y_b, color="green", label="SWARM B")
+
+plt.scatter(x_c, y_c, color="blue", label="SWARM C")
+plt.xticks(rotation='vertical')
+
+#plt.grid(True)
+#plt.xticks(x_m[::15], rotation='vertical')
 
 plt.title('Ti at 275 km')
-# plt.grid(True)
 plt.subplots_adjust(bottom=0.162)
-#plt.xticks(x_m[::15], rotation='vertical')
-plt.xticks(x_m, rotation='vertical')
 
-# plt.axvline(x = 1476139380, color='r')
+for i in IT_storms: 
+    plt.axvline(x = i[0], color='r')
+    plt.axvline(x = i[1], color='g')
 
 plt.xlabel('Epoch Time(Day-Month, Hour:Minute:Second)')
 plt.ylabel('Line-of-Sight Ion Temperature [K]')
