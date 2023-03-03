@@ -3,17 +3,21 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker 
 import datetime
 import geopy.distance
+import pytz
+import os
+
+from dateutil import tz
 
 from openpyxl import Workbook
 import openpyxl
 
 
-name_of_file = 'Harsh_Andrew_2016'
+name_of_file = 'Harsh_Andrew_2015'
 
 
 # Excell Specifics #######################################
 # Geo location is taken in DD
-data = ['Time_Harsh', 'Time_Andy', 'Lat_Harsh', 'Long_Harsh', 'TI_Harsh', "TI_Andy"]
+data = ['Time_Harsh', 'Time_Andy', 'Lat_Harsh', 'Long_Harsh', 'Electron_Temp', "Ion temp"]
 try:
     wb = openpyxl.load_workbook('./harsh_andy_excel_files/' + name_of_file + '.xlsx')
     ws = wb.active
@@ -25,13 +29,13 @@ except:
     ws = wb.active
     ws.append(data)
 
-    print("Creating the file: " + name_of_file, end='\n\n')
+    # print("Creating the file: " + name_of_file, end='\n\n')
 
 # Global Variable(s) and Function(s)
-path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2016.xlsx'
-harsh_path_swarm_a = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_A/currentYear2016-17.xlsx'
-harsh_path_swarm_b = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_B/currentYear2016-17.xlsx'
-harsh_path_swarm_c = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_C/currentYear2016-17.xlsx'
+path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2015.xlsx'
+harsh_path_swarm_a = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_A/currentYear2015-16.xlsx'
+harsh_path_swarm_b = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_B/currentYear2015-16.xlsx'
+harsh_path_swarm_c = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_C/currentYear2015-16.xlsx'
 
 poker_flat_lat  = 65.1200
 poker_flat_long = -147.4700 
@@ -55,6 +59,19 @@ def EPOCH_to_min(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
     return int(date_conv.strftime("%M"))
 
+def subtract_time(hours, minutes):
+    time_in_minutes = hours*60 + minutes
+
+    time_in_minutes -= (7*60+45)
+
+    if (time_in_minutes < 0): time_in_minutes += 24*60
+    else:
+        hours   = time_in_minutes // 60
+        minutes = time_in_minutes % 60
+
+    print("hours:", hours, "minutes:", minutes)
+
+    return hours, minutes
 #################################
 
 
@@ -82,7 +99,10 @@ x = []
 y = []
 numbs = [] 
 
-for i in range(1, sheet_obj.max_row): #1189
+for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
+    os.system('clear')
+    print("Iteration:", i, "/", sheet_obj.max_row)
+
     x_slot = sheet_obj.cell(row=i+1, column=1).value 
     y_slot = sheet_obj.cell(row=i+1, column=2).value 
 
@@ -93,22 +113,33 @@ for i in range(1, sheet_obj.max_row): #1189
         harsh_lat   =       sheet_obj_swarm_a.cell(row=j+1, column=4).value
         
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x_a.append(EPOCH_to_DATE(x_slot))
+            #x_a.append(EPOCH_to_DATE(x_slot))
+            date    = sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            time    = date.time()
+
+            hours, minutes = subtract_time(time.hour, time.minute)
+            alaska_datetime = datetime.datetime(
+                    year=year, month=1, day=1, hour=hours, minute=minutes,
+                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
+
+            x_a.append(alaska_datetime)
             y_a.append(y_slot)
 
+            '''
             print(
+                type(sheet_obj_swarm_a.cell(row=j+1, column=1).value),
                 type(harsh_epoch_time),
                 type(harsh_te),
                 type(harsh_long),
                 type(harsh_lat)
-            )
+            )'''
             
             # data = [  'Time_Harsh', 'Time_Andy', 
             #           'Lat_Harsh', 'Long_Harsh', 
             #           'TI_Harsh', "TI_Andy"]
             try:
                 ws.append( ( 
-                    # EPOCH_to_DATE_file(harsh_epoch_time), EPOCH_to_DATE_file(x_slot), 
                     harsh_epoch_time, x_slot,
                     harsh_lat, harsh_long, 
                     harsh_te, y_slot 
@@ -122,12 +153,21 @@ for i in range(1, sheet_obj.max_row): #1189
         harsh_long  =       sheet_obj_swarm_b.cell(row=j+1, column=3).value
         harsh_lat   =       sheet_obj_swarm_b.cell(row=j+1, column=4).value
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x_b.append(EPOCH_to_DATE(x_slot))
+            #x_b.append(EPOCH_to_DATE(x_slot))
+            date    = sheet_obj_swarm_b.cell(row=j+1, column=1).value
+            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            time    = date.time()
+
+            hours, minutes = subtract_time(time.hour, time.minute)
+            alaska_datetime = datetime.datetime(
+                    year=year, month=1, day=1, hour=hours, minute=minutes,
+                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
+
+            x_b.append(alaska_datetime)
             y_b.append(y_slot)
-            
+
             try:
                 ws.append( ( 
-                    # EPOCH_to_DATE_file(harsh_epoch_time), EPOCH_to_DATE_file(x_slot), 
                     harsh_epoch_time, x_slot,
                     harsh_lat, harsh_long, 
                     harsh_te, y_slot 
@@ -141,12 +181,23 @@ for i in range(1, sheet_obj.max_row): #1189
         harsh_long  =       sheet_obj_swarm_c.cell(row=j+1, column=3).value
         harsh_lat   =       sheet_obj_swarm_c.cell(row=j+1, column=4).value
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
-            x_c.append(EPOCH_to_DATE(x_slot))
+            #x_c.append(EPOCH_to_DATE(x_slot))
+            date    = sheet_obj_swarm_c.cell(row=j+1, column=1).value
+            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            time    = date.time()
+
+            # hour, minutes = subtract_time(time.hour, time.minute)
+
+            hours, minutes = subtract_time(time.hour, time.minute)
+            alaska_datetime = datetime.datetime(
+                    year=year, month=1, day=1, hour=hours, minute=minutes,
+                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
+
+            x_c.append(alaska_datetime)
             y_c.append(y_slot)
 
             try: 
                 ws.append( ( 
-                    # EPOCH_to_DATE_file(harsh_epoch_time), EPOCH_to_DATE_file(x_slot), 
                     harsh_epoch_time, x_slot,
                     harsh_lat, harsh_long, 
                     harsh_te, y_slot 
@@ -154,7 +205,7 @@ for i in range(1, sheet_obj.max_row): #1189
             except:
                 print("Smth went wrong")
 
-wb.save('./harsh_andy_excel_files/' + name_of_file + '.xlsx')
+# wb.save('./harsh_andy_excel_files/' + name_of_file + '.xlsx')
 
 IT_storms = ( 
 [1476139380, 1476475320],
@@ -164,7 +215,12 @@ IT_storms = (
 [1471662420, 1472106180],
 [1477335480, 1478023800]
 )
- 
+
+post_midnight   = datetime.datetime(2015, 1, 1, 0, 0, 0)
+pre_noon        = datetime.datetime(2015, 1, 1, 6, 0, 0)
+post_noon       = datetime.datetime(2015, 1, 1, 12, 0, 0)
+pre_midnight    = datetime.datetime(2015, 1, 1, 18, 0, 0)
+day_time = [ post_midnight, pre_noon, post_noon, pre_midnight ]
 
 plt.figure(figsize=(14, 9))
 
@@ -175,16 +231,19 @@ plt.scatter(x_c, y_c, color="blue", label="SWARM C: " + str(len(y_c)))
 plt.xticks(rotation='vertical')
 
 plt.grid(True)
-#plt.xticks(x_m[::15], rotation='vertical')
 
 plt.title('Ti at 275 km')
 plt.subplots_adjust(bottom=0.162)
 
+for i in day_time: 
+    plt.axvline(x = i, color='r')
+
+'''
 for i in IT_storms: 
     plt.axvline(x = EPOCH_to_DATE(i[0]), color='r')
     plt.axvline(x = EPOCH_to_DATE(i[1]), color='g')
-
-plt.xlabel("x-axis, " + str(sheet_obj.max_row) + " points; " + 
+'''
+plt.xlabel("IT - ET, " + str(sheet_obj.max_row) + " points; " + 
 str(len(y_a) + len(y_b) + len(y_c)) + " found")
 
 #plt.xlabel('Epoch Time(Day-Month, Hour:Minute:Second)')
