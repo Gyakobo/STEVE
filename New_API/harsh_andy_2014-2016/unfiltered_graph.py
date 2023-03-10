@@ -25,10 +25,13 @@ def subtract_time(hours, minutes):
 
     time_in_minutes -= (7*60+45)
 
-    if (time_in_minutes < 0): time_in_minutes += 24*60
-    else:
-        hours   = time_in_minutes // 60
-        minutes = time_in_minutes % 60
+    if (time_in_minutes < 0):
+        print("original hour:", time_in_minutes // 60, "original minutes:", time_in_minutes % 60) 
+        time_in_minutes += 24*60
+        print("fomatted hour:", time_in_minutes // 60, "formatted minutes:", time_in_minutes % 60, end="\n\n") 
+    
+    hours   = time_in_minutes // 60
+    minutes = time_in_minutes % 60
 
     # print("hours:", hours, "minutes:", minutes)
 
@@ -44,22 +47,23 @@ x = []
 
 
 for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
-    os.system('clear')
-    print("Iteration:", i, "/", sheet_obj.max_row)
+    # os.system('clear')
+    # print("Iteration:", i, "/", sheet_obj.max_row)
     
     date = EPOCH_to_DATE(sheet_obj.cell(row=i+1, column=1).value) 
     y_slot = sheet_obj.cell(row=i+1, column=2).value 
-            
-    year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
-    time    = date.time()
 
-    hours, minutes = subtract_time(time.hour, time.minute)
-    alaska_datetime = datetime.datetime(
-            year=2000, month=1, day=1, hour=hours, minute=minutes,
-            second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
-
-    x.append(alaska_datetime)
-    y.append(y_slot)
+    if (y_slot <= 20000):        
+        year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+        time    = date.time()
+ 
+        hours, minutes = subtract_time(time.hour, time.minute)
+        alaska_datetime = datetime.datetime(
+                year=2000, month=1, day=1, hour=hours, minute=minutes,
+                second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
+ 
+        x.append(alaska_datetime)
+        y.append(y_slot)
 
 
 pre_noon        = datetime.datetime(2000, 1, 1, 0, 0, 0)

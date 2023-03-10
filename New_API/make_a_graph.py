@@ -3,14 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker 
 import datetime
 import geopy.distance
-import pytz
 import os
-
-from dateutil import tz
-
 from openpyxl import Workbook
 import openpyxl
-
 
 name_of_file = 'Harsh_Andrew_2015'
 
@@ -65,12 +60,10 @@ def subtract_time(hours, minutes):
     time_in_minutes -= (7*60+45)
 
     if (time_in_minutes < 0): time_in_minutes += 24*60
-    else:
-        hours   = time_in_minutes // 60
-        minutes = time_in_minutes % 60
-
-    print("hours:", hours, "minutes:", minutes)
-
+    
+    hours   = time_in_minutes // 60
+    minutes = time_in_minutes % 60
+    
     return hours, minutes
 #################################
 
