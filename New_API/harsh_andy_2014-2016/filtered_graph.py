@@ -10,7 +10,6 @@ import openpyxl
 
 # Global Variable(s) and Function(s)
 path_filtered      = './2014-2016_filtered.xlsx'
-path_unfiltered    = './2014-2016_unfiltered.xlsx'
 
 # Main path
 path = path_filtered
@@ -49,17 +48,18 @@ for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
     
     date = EPOCH_to_DATE(sheet_obj.cell(row=i+1, column=2).value) 
     y_slot = sheet_obj.cell(row=i+1, column=6).value 
-            
-    year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
-    time    = date.time()
 
-    hours, minutes = subtract_time(time.hour, time.minute)
-    alaska_datetime = datetime.datetime(
-            year=2000, month=1, day=1, hour=hours, minute=minutes,
-            second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
-
-    x.append(alaska_datetime)
-    y.append(y_slot)
+    if (y_slot <= 20000):        
+        year    = date.year 
+        time    = date.time()
+ 
+        hours, minutes = subtract_time(time.hour, time.minute)
+        alaska_datetime = datetime.datetime(
+                year=2000, month=1, day=1, hour=hours, minute=minutes,
+                second=time.second, microsecond=time.microsecond) 
+ 
+        x.append(alaska_datetime)
+        y.append(y_slot)
 
 
 pre_noon        = datetime.datetime(2000, 1, 1, 0, 0, 0)
