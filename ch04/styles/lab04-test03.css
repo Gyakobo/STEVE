@@ -1,5 +1,9 @@
 /* add styles here */
 
+/* 
+name: Andrew Gyakobo
+*/
+
 h1 {
     font-weight: 500;
     letter-spacing: 5px;
@@ -33,10 +37,14 @@ span {
     font-size: 16px;
 }
 
-h2, h3, h4 {
-
+h2 {
+}
+h3 {
+}
+h4 {
 }
 
-.bodytext, .asidetext {
-
+.bodytext{
+} 
+.asidetext {
 }
