@@ -19,7 +19,6 @@ import openpyxl
 
 name_of_file = "Dataset_2015"
 
-
 # Excell Specifics #######################################
 data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
 try:

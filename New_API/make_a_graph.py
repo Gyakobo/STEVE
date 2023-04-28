@@ -10,6 +10,28 @@ import colorama
 import sys
 import numpy as np
 
+
+name_of_file = "filtered_ITET_data"
+
+# Excell Specifics #######################################
+# data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
+data = ['Time', 'TI_at_275', 'TE', 'TI_name_of_file']
+
+try:
+    wb = openpyxl.load_workbook('./excel_files/' + name_of_file + '.xlsx')
+    ws = wb.active
+
+    print("Found file", end="\n\n")
+
+except:
+    wb = Workbook()
+    ws = wb.active
+    ws.append(data)
+
+    print("Create the file", end='\n\n')
+
+
+
 # Global Variable(s) and Function(s)
 path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
 # path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2015.xlsx'
@@ -20,24 +42,6 @@ harsh_path_swarm_c = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_C/
 
 poker_flat_lat  = 65.1200
 poker_flat_long = -147.4700 
-
-def scatter_hist(x, y, ax, ax_histx, ax_histy):
-    # no labels
-    ax_histx.tick_params(axis="x", labelbottom=False)
-    ax_histy.tick_params(axis="y", labelleft=False)
-
-    # the scatter plot:
-    ax.scatter(x, y)
-
-    # now determine nice limits by hand:
-    binwidth = 0.25
-    xymax = max(np.max(np.abs(x)), np.max(np.abs(y)))
-    lim = (int(xymax/binwidth) + 1) * binwidth
-
-    bins = np.arange(-lim, lim + binwidth, binwidth)
-    ax_histx.hist(x, bins=bins)
-    ax_histy.hist(y, bins=bins, orientation='horizontal')   
-
 
 def progress_bar(progress, total, color=colorama.Fore.YELLOW):
     percent = 100 * (progress / float(total))
@@ -102,12 +106,14 @@ x_c = []
 x = []
 y = []
 
-# for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
-for i in range(1, 10): # sheet_obj.max_row
-    progress_bar(i+1, sheet_obj.max_row)
+n = sheet_obj.max_row
+# n = 30
+for i in range(1, n): # sheet_obj.max_row
+    progress_bar(i+1, n)
 
-    x_slot = sheet_obj.cell(row=i+1, column=1).value 
-    y_slot = sheet_obj.cell(row=i+1, column=2).value 
+    x_slot          = sheet_obj.cell(row=i+1, column=1).value 
+    y_slot          = sheet_obj.cell(row=i+1, column=2).value 
+    name_of_IT_file = sheet_obj.cell(row=i+1, column=6).value
 
     for j in range(1, sheet_obj_swarm_a.max_row):
         harsh_epoch_time =  sheet_obj_swarm_a.cell(row=j+1, column=1).value.timestamp()
@@ -117,17 +123,24 @@ for i in range(1, 10): # sheet_obj.max_row
         
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
             date    = sheet_obj_swarm_a.cell(row=j+1, column=1).value
-            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            # year    = date.year
             time    = date.time()
 
             hours, minutes = subtract_time(time.hour, time.minute)
-            alaska_datetime = datetime.datetime(
-                    year=2000, month=1, day=1, hour=hours, minute=minutes,
-                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
 
             if (y_slot <= 20000):        
-                x_a.append(alaska_datetime)
+                x_a.append(hours + minutes / 60.0)
                 y_a.append(y_slot)
+                
+                try: 
+                    ws.append( ( 
+                        x_slot,
+                        y_slot,
+                        harsh_te,
+                        name_of_IT_file
+                    ) )
+                except:
+                    print("Smth went wrong")
     
     for j in range(1, sheet_obj_swarm_b.max_row):
         harsh_epoch_time =  sheet_obj_swarm_b.cell(row=j+1, column=1).value.timestamp()
@@ -136,17 +149,24 @@ for i in range(1, 10): # sheet_obj.max_row
         harsh_lat   =       sheet_obj_swarm_b.cell(row=j+1, column=4).value
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
             date    = sheet_obj_swarm_b.cell(row=j+1, column=1).value
-            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            # year    = date.year 
             time    = date.time()
 
             hours, minutes = subtract_time(time.hour, time.minute)
-            alaska_datetime = datetime.datetime(
-                    year=2000, month=1, day=1, hour=hours, minute=minutes,
-                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
 
             if (y_slot <= 20000):        
-                x_b.append(alaska_datetime)
+                x_b.append(hours + minutes / 60.0)
                 y_b.append(y_slot)
+                
+                try: 
+                    ws.append( ( 
+                        x_slot,
+                        y_slot,
+                        harsh_te,
+                        name_of_IT_file
+                    ) )
+                except:
+                    print("Smth went wrong")
 
     for j in range(1, sheet_obj_swarm_c.max_row):
         harsh_epoch_time =  sheet_obj_swarm_c.cell(row=j+1, column=1).value.timestamp()
@@ -155,75 +175,80 @@ for i in range(1, 10): # sheet_obj.max_row
         harsh_lat   =       sheet_obj_swarm_c.cell(row=j+1, column=4).value
         if abs(int(x_slot) - int(harsh_epoch_time)) <= (30.0 * 60.0) and curv_distance_km(harsh_lat, harsh_long, poker_flat_lat, poker_flat_long) <= 500:
             date    = sheet_obj_swarm_c.cell(row=j+1, column=1).value
-            year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
+            # year    = date.year
             time    = date.time()
 
             hours, minutes = subtract_time(time.hour, time.minute)
-            alaska_datetime = datetime.datetime(
-                    year=2000, month=1, day=1, hour=hours, minute=minutes,
-                    second=time.second, microsecond=time.microsecond) # tzinfo=pytz.utc
-
+            
             if (y_slot <= 20000):        
-                x_c.append(alaska_datetime)
+                x_c.append(hours + minutes / 60.0)
                 y_c.append(y_slot)
-         
-                '''try: 
+                
+                try: 
                     ws.append( ( 
-                        harsh_epoch_time, x_slot,
-                        harsh_lat, harsh_long, 
-                        harsh_te, y_slot 
+                        x_slot,
+                        y_slot,
+                        harsh_te,
+                        name_of_IT_file
                     ) )
                 except:
-                    print("Smth went wrong")'''
+                    print("Smth went wrong")
 
-# wb.save('./harsh_andy_excel_files/' + name_of_file + '.xlsx')
-
-IT_storms = ( 
-[1476139380, 1476475320],
-[1457058240, 1457620560],
-[1462641000, 1462978080],
-[1453203960, 1453483860],
-[1471662420, 1472106180],
-[1477335480, 1478023800]
-)
-
-post_midnight   = datetime.datetime(2000, 1, 1, 0, 0, 0)
-pre_noon        = datetime.datetime(2000, 1, 1, 6, 0, 0)
-post_noon       = datetime.datetime(2000, 1, 1, 12, 0, 0)
-pre_midnight    = datetime.datetime(2000, 1, 1, 18, 0, 0)
-day_time = [ post_midnight, pre_noon, post_noon, pre_midnight ]
+wb.save('./excel_files/' + name_of_file + '.xlsx')
 
 # Default console to default color
 print(colorama.Fore.RESET)
 
 fig = plt.figure(figsize=(14, 9))
 
+# plt.xlabel("IT - ET, " + str(sheet_obj.max_row) + " points; " + 
+# str(len(y_a) + len(y_b) + len(y_c)) + " found")
+
+pre_noon        = 0
+post_midnight   = 6
+post_noon       = 12
+pre_midnight    = 18
+night           = 24 
+
+day_time = [ post_midnight, pre_noon, post_noon, pre_midnight, night ]
+
+fig = plt.figure(figsize=(14, 10))
+
+x.append(x_a)
+x.append(x_b)
+x.append(x_c)
+
+'''
+y.append(y_a)
+y.append(y_b)
+y.append(y_c)
+'''
+
+# Bins for the histograms
+bins = []
+i = 0 
+while(i <= 24):
+    bins.append(i)
+    i += 0.5 
+
+# Scatter plot
+ax1 = fig.add_subplot(211)
+
 # A, B, C
-plt.scatter(x_a, y_a, color="orange", label="SWARM A: " + str(len(y_a)))
-plt.scatter(x_b, y_b, color="green", label="SWARM B: " + str(len(y_b)))
-plt.scatter(x_c, y_c, color="blue", label="SWARM C: " + str(len(y_c)))
-plt.xticks(rotation='vertical')
+ax1.scatter(x_a, y_a, color="orange", label="SWARM A: " + str(len(y_a)))
+ax1.scatter(x_b, y_b, color="green", label="SWARM B: " + str(len(y_b)))
+ax1.scatter(x_c, y_c, color="blue", label="SWARM C: " + str(len(y_c)))
+ax1.grid(True)
+ax1.set_title('Ti at 275 km')
+ax1.legend()
 
-plt.grid(True)
-
-plt.title('Ti at 275 km')
-plt.subplots_adjust(bottom=0.162)
-
+# Histogram plot #1
+ax2 = fig.add_subplot(212)
+ax2.hist(x, bins=bins, edgecolor='black')
 for i in day_time: 
-    plt.axvline(x = i, color='r')
+    ax1.axvline(x = i, color='r')
+    ax2.axvline(x = i, color='r')
 
-for i in IT_storms: 
-    plt.axvline(x = EPOCH_to_DATE(i[0]), color='r')
-    plt.axvline(x = EPOCH_to_DATE(i[1]), color='g')
-
-plt.xlabel("IT - ET, " + str(sheet_obj.max_row) + " points; " + 
-str(len(y_a) + len(y_b) + len(y_c)) + " found")
-
-# plt.xlabel('Epoch Time(Day-Month, Hour:Minute:Second)')
-plt.ylabel('Line-of-Sight Ion Temperature [K]')
-
-plt.legend()
 plt.plot()
 plt.show()
-
 

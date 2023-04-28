@@ -10,7 +10,7 @@ import numpy as np
 
 
 # Global Variable(s) and Function(s)
-path    = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+path    = './excel_files/filtered_ITET_data.xlsx'
 
 def EPOCH_to_DATE(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
@@ -69,7 +69,7 @@ bins = []
 i = 0 
 while(i <= 24):
     bins.append(i)
-    i += 0.5 
+    i += 3 
 
 # Scatter plot
 ax1 = fig.add_subplot(211)
@@ -87,17 +87,3 @@ for i in day_time:
 
 plt.plot()
 plt.show()
-
-############################### Deprecated ##################################
-
-# plt.scatter(x, y, color="orange", label="IT: " + str(len(y)))
-# plt.grid(True)
-# plt.title('Ti at 275 km')
-# plt.subplots_adjust(bottom=0.162)
-
-# for i in day_time: 
-#    plt.axvline(x = i, color='r')
-
-# plt.xlabel("IT: " + str(sheet_obj.max_row) + " points found")
-# plt.ylabel('Line-of-Sight Ion Temperature [K]')
-# plt.legend()
