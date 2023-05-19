@@ -4,10 +4,27 @@ import matplotlib.ticker as mticker
 import datetime
 from openpyxl import Workbook
 import openpyxl
+import os
 
+from unicodedata import name
+import h5py as h5
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
+import time
 
 # Global Variable(s) and Function(s)
-path    = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+dir_path    = "/home/andrew/PFISR_data/"
+path        = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+
+def get_files(path):
+    for file in os.listdir(path):
+        if os.path.isfile(os.path.join(path, file)):
+            yield file
+
+### GENERATOR EXPRESSION ###
+# for file in get_files(dir_path):
+#    print(file)
 
 def EPOCH_to_DATE(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
@@ -35,14 +52,53 @@ y = []
 x = []
 name_of_file = []
 n_bin_del = 0.5
-n = [0]*24
+n = []
+
+### GENERATOR EXPRESSION ###
+for file in get_files(dir_path):
+    # print(dir_path+file, '###################')
+    
+    try:
+        f  = h5.File(dir_path+file, 'r')
+    except:
+        print("Cannot open file")
+
+    beamcodes = f['BeamCodes']
+    beamcodesdata = beamcodes[:,:]
+    beamcodesdata = beamcodesdata.astype(float)    
+    
+    # EPOCH TIME
+    epoch = f['UnixTime']
+    epochData = epoch[:,:]
+    epochData = epochData.astype(float)    
+
+    # CONVERTS EPOCH TIME TO UNIVERSAL TIME IN DATETIME 
+    '''
+    ut = [datetime.datetime(int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[0]), # YEAR
+                           int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[1]), # MONTH
+                           int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[2]), # DAY
+                           int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[3]), # HOUR
+                           int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[4]), # MINUTE
+                           int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[5])) # SECOND
+                           for t in range(len(epochData))]
+    '''
+    
+    for t in range(len(epochData)):
+        h = int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[3]) # HOUR
+        m = int(time.gmtime((epochData[t,0]+epochData[t,1])/2)[4]) # MINUTE
+        h, m = subtract_time(h, m)
+        n.append(h + m / 60.0)
+
 
 for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
     
     date    = EPOCH_to_DATE(sheet_obj.cell(row=i+1, column=1).value) 
     y_slot  = sheet_obj.cell(row=i+1, column=2).value 
 
-    name_of_file.append(sheet_obj.cell(row=i+1, column=6).value)
+    file_name_explicit  = sheet_obj.cell(row=i+1, column=6).value
+    time_explicit       = str(sheet_obj.cell(row=i+1, column=1).value)
+
+    name_of_file.append(file_name_explicit + ', ' + time_explicit)
     # TIspike20150529.002_lp_5min.h5
 
     if (y_slot <= 20000):        
@@ -72,7 +128,7 @@ while(i <= 24):
     i += n_bin_del
 
 # Scatter plot
-ax1 = fig.add_subplot(211)
+ax1 = fig.add_subplot(311)
 # ax1 = fig.add_subplot(111)
 ax1.scatter(x, y, color="orange", label="IT: " + str(len(y)))
 ax1.grid(True)
@@ -80,11 +136,18 @@ ax1.set_title('Ti at 275 km')
 ax1.legend()
 
 # Histogram plot #1
-ax2 = fig.add_subplot(212)
+ax2 = fig.add_subplot(312)
 ax2.hist(x, bins=bins, edgecolor='black')
+
+# Histogram plot #2
+ax3 = fig.add_subplot(313)
+ax3.hist(n, bins=bins, edgecolor='black')
+
+# Trace the hour red lines
 for i in day_time: 
     ax1.axvline(x = i, color='r')
     ax2.axvline(x = i, color='r')
+    ax3.axvline(x = i, color='r')
 
 plt.plot()
 plt.show()

@@ -40,7 +40,9 @@ for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
     y_slot  = sheet_obj.cell(row=i+1, column=2).value 
     
     if y_slot >= 5000:
-        name_of_file.append(sheet_obj.cell(row=i+1, column=4).value[7:-3]) 
+        file_name_explicit  = sheet_obj.cell(row=i+1, column=4).value
+        time_explicit       = str(sheet_obj.cell(row=i+1, column=1).value)
+        name_of_file.append(file_name_explicit[7:-3] + ': ' + time_explicit) 
     else: name_of_file.append(None) 
 
     if (y_slot <= 20000):        
