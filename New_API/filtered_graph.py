@@ -10,7 +10,7 @@ import numpy as np
 
 
 # Global Variable(s) and Function(s)
-path    = './excel_files/filtered_ITET_data.xlsx'
+path    = './excel_files/filtered_ITET_data_240[km].xlsx'
 
 def EPOCH_to_DATE(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
@@ -75,7 +75,7 @@ while(i <= 24):
 ax1 = fig.add_subplot(211)
 ax1.scatter(x, y, color="orange", label="IT: " + str(len(y)))
 ax1.grid(True)
-ax1.set_title('Ti at 275 km')
+ax1.set_title('Ti at 240 km')
 ax1.legend()
 
 # Histogram plot #1

@@ -4,7 +4,6 @@ import urllib
 
 from urllib.request import urlopen
 from urllib.request import urlretrieve
-import cgi
 from urllib.error import HTTPError
 
 """

@@ -17,7 +17,7 @@ from openpyxl import Workbook
 import openpyxl
 
 
-name_of_file = "Dataset_2015"
+name_of_file = "Dataset_2014-2016_240[km]"
 
 # Excell Specifics #######################################
 data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
@@ -295,7 +295,7 @@ for i in range(len(altdata)):
   if beamcodesdata[i,0] == 64157.0:
 
     #WE FIND THE ION TEMPERATURE MEASURED CLOSEST TO 275 KM      
-    a = abs(altdata[i,:] - 275)
+    a = abs(altdata[i,:] - 240) #275 [km]
     b = np.where(a == np.nanmin(a))
     Ti275     = tidata[:,i,b[0]]
     ne275     = nedata[:,i,b[0]]

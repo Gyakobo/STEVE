@@ -11,7 +11,7 @@ import sys
 import numpy as np
 
 
-name_of_file = "filtered_ITET_data"
+name_of_file = "filtered_ITET_data_240[km]"
 
 # Excell Specifics #######################################
 # data = ['Time', 'TI_at_275', 'Error_TI', 'ne_at_275', 'Error_ne', 'File_name']
@@ -33,7 +33,7 @@ except:
 
 
 # Global Variable(s) and Function(s)
-path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016_240[km].xlsx'
 # path = '/home/andrew/STEVE/New_API/excel_files/Dataset_2015.xlsx'
 
 harsh_path_swarm_a = '/home/andrew/STEVE/New_API/SWARM_Data/Harsh_files_SWARM_A/swarm_A_2014-2017.xlsx'

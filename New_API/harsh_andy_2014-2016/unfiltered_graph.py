@@ -15,7 +15,8 @@ import time
 
 # Global Variable(s) and Function(s)
 dir_path    = "/home/andrew/PFISR_data/"
-path        = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+# path        = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016.xlsx'
+path        = '/home/andrew/STEVE/New_API/excel_files/Dataset_2014-2016_240[km].xlsx'
 
 def get_files(path):
     for file in os.listdir(path):
@@ -51,7 +52,6 @@ sheet_obj = wb_obj.active
 y = []
 x = []
 name_of_file = []
-n_bin_del = 0.5
 n = []
 
 ### GENERATOR EXPRESSION ###
@@ -121,6 +121,7 @@ day_time = [ post_midnight, pre_noon, post_noon, pre_midnight, night ]
 fig = plt.figure(figsize=(14, 10))
 
 # Bins for the histograms
+n_bin_del = 0.5 
 bins = []
 i = 0 
 while(i <= 24):
@@ -128,26 +129,27 @@ while(i <= 24):
     i += n_bin_del
 
 # Scatter plot
-ax1 = fig.add_subplot(311)
-# ax1 = fig.add_subplot(111)
+# ax1 = fig.add_subplot(311)
+ax1 = fig.add_subplot(211)
 ax1.scatter(x, y, color="orange", label="IT: " + str(len(y)))
 ax1.grid(True)
-ax1.set_title('Ti at 275 km')
+ax1.set_title('Ti at 240 km')
 ax1.legend()
 
 # Histogram plot #1
-ax2 = fig.add_subplot(312)
+ax2 = fig.add_subplot(212)
+# ax2 = fig.add_subplot(312)
 ax2.hist(x, bins=bins, edgecolor='black')
 
 # Histogram plot #2
-ax3 = fig.add_subplot(313)
-ax3.hist(n, bins=bins, edgecolor='black')
+# ax3 = fig.add_subplot(313)
+# ax3.hist(n, bins=bins, edgecolor='black')
 
 # Trace the hour red lines
 for i in day_time: 
     ax1.axvline(x = i, color='r')
-    ax2.axvline(x = i, color='r')
-    ax3.axvline(x = i, color='r')
+    # ax2.axvline(x = i, color='r')
+    # ax3.axvline(x = i, color='r')
 
 plt.plot()
 plt.show()
