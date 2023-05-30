@@ -2,11 +2,15 @@ import openpyxl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker 
 import datetime
+# import geopy.distance
+# import os
 from openpyxl import Workbook
 import openpyxl
+import numpy as np
+
 
 # Global Variable(s) and Function(s)
-path    = '/home/andrew/STEVE/New_API/excel_files/filtered_ITET_data.xlsx'
+path    = './excel_files/filtered_ITET_data_240[km].xlsx'
 
 def EPOCH_to_DATE(epoch_time):
     date_conv = datetime.datetime.fromtimestamp(epoch_time)
@@ -32,21 +36,17 @@ sheet_obj = wb_obj.active
 
 y = []
 x = []
-name_of_file = []
+
 
 for i in range(1, sheet_obj.max_row): # sheet_obj.max_row
+    # os.system('clear')
+    # print("Iteration:", i, "/", sheet_obj.max_row)
     
     date    = EPOCH_to_DATE(sheet_obj.cell(row=i+1, column=1).value) 
     y_slot  = sheet_obj.cell(row=i+1, column=2).value 
-    
-    if y_slot >= 5000:
-        file_name_explicit  = sheet_obj.cell(row=i+1, column=4).value
-        time_explicit       = str(sheet_obj.cell(row=i+1, column=1).value)
-        name_of_file.append(file_name_explicit[7:-3] + ': ' + time_explicit) 
-    else: name_of_file.append(None) 
 
     if (y_slot <= 20000):        
-        year    = date.year 
+        year    = date.year #sheet_obj_swarm_a.cell(row=j+1, column=1).value
         time    = date.time()
  
         hours, minutes = subtract_time(time.hour, time.minute)
@@ -69,41 +69,21 @@ bins = []
 i = 0 
 while(i <= 24):
     bins.append(i)
-    i += 0.5 
+    i += 3 
 
 # Scatter plot
-# ax1 = fig.add_subplot(211)
-ax1 = fig.add_subplot(111)
-
+ax1 = fig.add_subplot(211)
 ax1.scatter(x, y, color="orange", label="IT: " + str(len(y)))
-
-for i, txt in enumerate(name_of_file):
-    ax1.annotate(txt, (x[i], y[i]))
-
 ax1.grid(True)
-ax1.set_title('Ti at 275 km')
+ax1.set_title('Ti at 240 km')
 ax1.legend()
 
 # Histogram plot #1
-# ax2 = fig.add_subplot(212)
-# ax2.hist(x, bins=bins, edgecolor='black')
+ax2 = fig.add_subplot(212)
+ax2.hist(x, bins=bins, edgecolor='black')
 for i in day_time: 
     ax1.axvline(x = i, color='r')
-    # ax2.axvline(x = i, color='r')
+    ax2.axvline(x = i, color='r')
 
 plt.plot()
 plt.show()
-
-############################### Deprecated ##################################
-
-# plt.scatter(x, y, color="orange", label="IT: " + str(len(y)))
-# plt.grid(True)
-# plt.title('Ti at 275 km')
-# plt.subplots_adjust(bottom=0.162)
-
-# for i in day_time: 
-#    plt.axvline(x = i, color='r')
-
-# plt.xlabel("IT: " + str(sheet_obj.max_row) + " points found")
-# plt.ylabel('Line-of-Sight Ion Temperature [K]')
-# plt.legend()
