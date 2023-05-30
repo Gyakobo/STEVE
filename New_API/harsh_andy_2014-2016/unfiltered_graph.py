@@ -8,7 +8,6 @@ import os
 
 from unicodedata import name
 import h5py as h5
-import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import time
