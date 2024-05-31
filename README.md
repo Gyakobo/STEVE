@@ -7,6 +7,7 @@
 ![image](https://img.shields.io/badge/LaTeX-47A141?style=for-the-badge&logo=LaTeX&logoColor=white)
 
 Author: [Andrew Gyakobo](https://github.com/Gyakobo)
+A special thanks to [Dr. Gareth Perry](https://www.linkedin.com/in/gareth-perry-3685013a/) and [Dr. Lindsay Goodwin](https://www.linkedin.com/in/lindsay-v-goodwin/) as they fully guided me through this research.
 
 ## Description
 
