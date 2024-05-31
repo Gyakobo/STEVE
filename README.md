@@ -60,7 +60,7 @@ To filter out possible enhancements due to noise, enhancements must be observed 
 
 In this work, an algorithm to find ion temperature enhancements in ISR data has been developed and coupled with Swarm data to search for STEVE events.
 
-Preliminary results show that the occurrence of ion temperature spikes and STEVE plasma conditions are most common at night. Howe¨er, they are most typically post-midnight, which is inconsistent with our current understanding of STEVE optical emissions.
+Preliminary results show that the occurrence of ion temperature spikes and STEVE plasma conditions are most common at night. However, they are most typically post-midnight, which is inconsistent with our current understanding of STEVE optical emissions.
 
 
 ## Relevant publications
