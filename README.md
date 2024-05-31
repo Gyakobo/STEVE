@@ -20,3 +20,8 @@ of phenomenon that appears as a night-time mauve emission, equatorward of the au
 
 The following project was also utilized to develop the following graphs in preparation for the CEDAR workshop in 2023 in San Diego, CA.
 
+<object data="./assets/poster.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="http://yoursite.com/the.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
