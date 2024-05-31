@@ -62,12 +62,12 @@ Preliminary results show that the occurrence of ion temperature spikes and STEVE
 ## Relevant publications
 The following project was also utilized in preparation for the CEDAR workshop in 2023 in San Diego, CA. and help form my [poster](https://github.com/Gyakobo/STEVE/blob/main/assets/poster.pdf) as well as contributed to [Harsh Panwar's](https://github.com/Harsh-Panwar000) [publication](https://cedarscience.org/sites/default/files/2023-posters/MDIT-3-panwar-harshit-algorithmic-identification.pdf). 
 
-## Reference:
+## Reference
 * Archer, W. E., Gallardo Lacourt, B., Perry, G. W., St. æaurice, J. P., Buchert, S. C., & Donovan, E. (2019). Steve: The optical signature of intense subauroral ion drifts. Geophysical Research +etters, 46(12), 6279 6286.
 
 * Gallardo Lacourt, B., Nishimura, Y., Donovan, E., Gillies, D. M., Perry, G. W., Archer, W. E., ... & Spanswick, E. L. (2018). A statistical analysis of STEVE. Journal of Geophysical Research: Space Physics, 123(11), 9893 9905.
 
 * Goodwin, L., St.-Maurice, J. P., Richards, P., Nicolls, M., & Hairston, M. (2014). F region dusk ion temperature spikes at the equatorward edge of the high latitude convection pattern. Geophysical Research Letters, 41(2), 300-307.
 
-## Acknowledgements
+## Acknowledgement
 This research is funded by the NSF - GEM (Award Number 2225972). PFISR observations are sourced from SRI International [website](https://amisr.com/amisr/)
