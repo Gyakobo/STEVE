@@ -21,7 +21,7 @@ Just a few notes about the event:
 
 ## Methodology
 
-To find a ion temperature enhancement, our algorithm searches for points that are bigger in ¨alue when compared to the preceding and subsequent points. It then filters out enhancements that are not larger than the collective standard de¨iation multiplied by a factor of 3.5.
+To find an ion temperature enhancement, our algorithm searches for points that are bigger in ¨alue when compared to the preceding and subsequent points. It then filters out enhancements that are not larger than the collective standard de¨iation multiplied by a factor of 3.5.
 
 <img src="./assets/methodology_graph.png">
 
@@ -52,9 +52,24 @@ To filter out possible enhancements due to noise, enhancements must be observed 
 >[!NOTE]
 >Above is the same MLT graph of ion temperature enhancements at both 240 km and 275 km altitudes, further filtered by Swarm spacecraft observations of "STEVE-like" plasma parameters.
 
+## Summary
+
+In this work, an algorithm to find ion temperature enhancements in ISR data has been developed and coupled with Swarm data to search for STEVE events.
+
+Preliminary results show that the occurrence of ion temperature spikes and STEVE plasma conditions are most common at night. Howe¨er, they are most typically post-midnight, which is inconsistent with our current understanding of STEVE optical emissions.
+
+
+## Relevant publications
 The following project was also utilized in preparation for the CEDAR workshop in 2023 in San Diego, CA.
-<object data="./assets/poster.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
+
+
+
+## Reference:
+* Archer, W. E., Gallardo Lacourt, B., Perry, G. W., St. æaurice, J. P., Buchert, S. C., & Donovan, E. (2019). Steve: The optical signature of intense subauroral ion drifts. Geophysical Research +etters, 46(12), 6279 6286.
+
+* Gallardo Lacourt, B., Nishimura, Y., Donovan, E., Gillies, D. M., Perry, G. W., Archer, W. E., ... & Spanswick, E. L. (2018). A statistical analysis of STEVE. Journal of Geophysical Research: Space Physics, 123(11), 9893 9905.
+
+* Goodwin, L., St.-Maurice, J. P., Richards, P., Nicolls, M., & Hairston, M. (2014). F region dusk ion temperature spikes at the equatorward edge of the high latitude convection pattern. Geophysical Research Letters, 41(2), 300-307.
+
+## Acknowledgements
+This research is funded by the NSF - GEæ (Award Number 2225972). PFISR observations are sourced from SRI International [website](https://amisr.com/amisr/)
