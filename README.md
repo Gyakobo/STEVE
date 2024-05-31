@@ -44,6 +44,14 @@ To filter out possible enhancements due to noise, enhancements must be observed 
 
 <img src="./assets/filtered_275.png">
 
+>[!NOTE]
+>Above is an MLT graph on ion temperature enhancements at the altitudeof 275 km filtered out by SWARM electron spikes sourced from my colleague [Harsh Panwar](https://github.com/Harsh-Panwar000). 
+
+<img src="./assets/filtered_240.png">
+
+>[!NOTE]
+>Above is the same MLT graph of ion temperature enhancements at both 240 km and 275 km altitudes, further filtered by Swarm spacecraft observations of "STEVE-like" plasma parameters.
+
 The following project was also utilized in preparation for the CEDAR workshop in 2023 in San Diego, CA.
 <object data="./assets/poster.pdf" type="application/pdf" width="700px" height="700px">
     <embed src="http://yoursite.com/the.pdf">
