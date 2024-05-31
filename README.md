@@ -10,6 +10,8 @@ Author: [Andrew Gyakobo](https://github.com/Gyakobo)
 
 A special thanks to [Dr. Gareth Perry](https://www.linkedin.com/in/gareth-perry-3685013a/) and [Dr. Lindsay Goodwin](https://www.linkedin.com/in/lindsay-v-goodwin/) as they fully guided me through this research.
 
+Moreover, a special shoutout to my colleague [Harsh Panwar](https://www.linkedin.com/in/hpanwar/) for also helping and supporting me through this project.
+
 ## Description
 
 This project was done in association with the Solar-Terrestrial Research Department(CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the phenomenon *STEVE*.
@@ -23,7 +25,7 @@ Just a few notes about the event:
 
 ## Methodology
 
-To find an ion temperature enhancement, our algorithm searches for points that are bigger in ¨alue when compared to the preceding and subsequent points. It then filters out enhancements that are not larger than the collective standard de¨iation multiplied by a factor of 3.5.
+To find an ion temperature enhancement, our algorithm searches for points that are bigger in ¨alue when compared to the preceding and subsequent points. It then filters out enhancements that are not larger than the collective standard deviation multiplied by a factor of 3.5.
 
 <img src="./assets/methodology_graph.png">
 
