@@ -75,3 +75,6 @@ The following project was also utilized in preparation for the CEDAR workshop in
 
 ## Acknowledgement
 This research is funded by the NSF - GEM (Award Number 2225972). PFISR observations are sourced from SRI International [website](https://amisr.com/amisr/)
+
+## License
+MIT
