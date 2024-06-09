@@ -9,7 +9,7 @@
 
 Author: [Andrew Gyakobo](https://github.com/Gyakobo)
 
-A special thanks to [Dr. Gareth Perry](https://www.linkedin.com/in/gareth-perry-3685013a/) and [Dr. Lindsay Goodwin](https://www.linkedin.com/in/lindsay-v-goodwin/) as they fully guided me through this research.
+A special thanks to [Dr. Gareth Perry](https://www.linkedin.com/in/gareth-perry-3685013a/) and [Dr. Lindsay Goodwin](https://www.linkedin.com/in/lindsay-v-goodwin/) as they fully guided me throughout this research.
 
 Moreover, a special shoutout to my colleague [Harsh Panwar](https://www.linkedin.com/in/hpanwar/) for also helping and supporting me through this project.
 
