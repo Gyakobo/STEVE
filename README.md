@@ -18,7 +18,7 @@ Moreover, a special shoutout to my colleague [Harsh Panwar](https://www.linkedin
 This project was done in association with the Solar-Terrestrial Research Department(CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the phenomenon *STEVE*.
 
 >**The Strong Thermal Emission Velocity Enhancement** (STEVE) is a type 
-of phenomenon that appears as a night-time mauve emission, equatorward of the auroral oval, during strong plasma flows. They extend thousands of kilometers in the east-west direction and only tens of kilometers in the north-south direction.
+of nature phenomenon that appears as a night-time mauve emission, equatorward of the auroral oval, during strong plasma flows. They extend thousands of kilometers in the east-west direction and only tens of kilometers in the north-south direction.
 
 Just a few notes about the event:
 * PFISR observations near a STEVE event show an ion temperature enhancement parallel to the magnetic field.
