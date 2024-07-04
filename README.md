@@ -13,6 +13,10 @@ A special thanks to [Dr. Gareth Perry](https://www.linkedin.com/in/gareth-perry-
 
 Moreover, a special shoutout to my colleague [Harsh Panwar](https://www.linkedin.com/in/hpanwar/) for also helping and supporting me through this project.
 
+Before I delve into this project's description, I do have to say that this department and work to me is very dear and near to my heart. I spent countless hours and sleepless nights working for this department and contributing to this research.
+
+This project was done in association with the Solar-Terrestrial Research Department(CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the phenomenon STEVE.
+
 ## Description
 
 This project was done in association with the Solar-Terrestrial Research Department (CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the unique phenomenon *STEVE*.
