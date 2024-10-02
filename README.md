@@ -17,7 +17,7 @@ Before I delve into this project's description, I do have to say that this depar
 
 This project was done in association with the Solar-Terrestrial Research Department(CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the phenomenon STEVE.
 
-## Description
+## Introduction
 
 This project was done in association with the Solar-Terrestrial Research Department (CSTR) in the New Jersey Institute of Technology (NJIT) and was purposely crafted to find the unique phenomenon *STEVE*.
 
